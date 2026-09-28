@@ -1,4 +1,4 @@
-const CACHE_NAME = 'louvores-pwa-v6';
+const CACHE_NAME = 'louvores-pwa-v7';
 
 const PRECACHE_ASSETS = [
   './',

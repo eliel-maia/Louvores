@@ -522,6 +522,10 @@
     const btnShareRep = document.getElementById('btn-compartilhar-repertorio');
     const btnShareList = document.getElementById('btn-compartilhar-lista');
     const btnHist = document.getElementById('btn-historico-toggle');
+    const toolbar = document.getElementById('toolbar-controles');
+    const estaEmEscala = estado.abaAtiva === 'terca' || estado.abaAtiva === 'domingo';
+
+    if (toolbar) toolbar.classList.toggle('toolbar-controles-escala', estaEmEscala);
 
     if (estado.abaAtiva === 'repertorio') {
       if (btnAdd) btnAdd.style.display = 'inline-flex';
@@ -1047,6 +1051,11 @@
         const aba = btn.dataset.aba;
         estado.abaAtiva = aba;
         estado.mostrarHistorico = false;
+        if (aba !== 'repertorio') {
+          estado.termoPesquisa = '';
+          const inputPesquisa = document.getElementById('input-pesquisa');
+          if (inputPesquisa) inputPesquisa.value = '';
+        }
         localStorage.setItem('activeTab', aba);
 
         document.querySelectorAll('.gatilho-aba').forEach(b => b.classList.remove('ativa'));

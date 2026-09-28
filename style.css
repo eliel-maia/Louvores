@@ -123,8 +123,8 @@ a {
 
 /* Header */
 .cabecalho-container {
-  padding-top: max(2.5rem, calc(1.25rem + env(safe-area-inset-top, 0px)));
-  padding-bottom: 0.75rem;
+  padding-top: max(1.5rem, calc(0.75rem + env(safe-area-inset-top, 0px)));
+  padding-bottom: 0.5rem;
   padding-left: max(1rem, env(safe-area-inset-left, 0px));
   padding-right: max(1rem, env(safe-area-inset-right, 0px));
   background: var(--gradient-warm);
@@ -323,6 +323,15 @@ a {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
+}
+
+.toolbar-controles-escala .pesquisa-wrapper {
+  display: none;
+}
+
+.toolbar-controles-escala .toolbar-botoes {
+  width: 100%;
+  justify-content: space-between;
 }
 
 .pesquisa-wrapper {
