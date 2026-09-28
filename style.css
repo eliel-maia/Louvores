@@ -1016,20 +1016,45 @@ a {
 
 /* Custom Select Dropdown (Opção 2) */
 /* Controla a altura máxima e adiciona rolagem interna para o seletor de tom */
+/* Container que encapsula as opções do Select */
 .custom-select-options {
-  max-height: 200px;
-  overflow-y: auto;
+  /* Limites de tamanho */
+  max-height: 250px;
+  width: 100%;
+  max-width: 320px; /* Impede que o dropdown fique largo demais na tela */
+  
+  /* Habilita rolagem interna quando o conteúdo passar de 250px */
+  overflow-y: auto; 
+  
+  /* Posicionamento (caso seja um dropdown suspenso) */
+  position: absolute;
+  z-index: 1000;
+  top: 100%; /* Surge logo abaixo do campo de entrada */
+  left: 0;
+
+  /* Estilização visual e bordas */
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background-color: var(--card);
   box-shadow: var(--shadow-card);
+  margin-top: 4px;
 }
 
+/* Estilo de cada item individual (Cm, C#m, Dm, etc.) */
 .custom-select-option {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
   color: var(--foreground);
   cursor: pointer;
+  border-bottom: 1px solid var(--border); /* Linha divisória fina */
+}
+
+/* Remove a borda inferior do último item */
+.custom-select-option:last-child {
+  border-bottom: none;
 }
 
 .custom-select-option:hover {
