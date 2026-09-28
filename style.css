@@ -179,7 +179,7 @@ a {
 
 /* Define o tamanho e o destaque do nome principal do aplicativo. */
 .cabecalho-titulo {
-  font-size: 1.5rem;
+  font-size: 1.9rem;
   line-height: 2rem;
   font-weight: 800;
   color: #000;
@@ -197,7 +197,7 @@ a {
 /* Estiliza o texto descritivo abaixo do nome do aplicativo. */
 .cabecalho-subtitulo {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.875rem;
+  font-size: 1.0rem;
   line-height: 1.25rem;
 }
 
