@@ -1014,6 +1014,28 @@ a {
   text-transform: uppercase; /* Aplica o maiúsculo SOMENTE no campo de digitar */
 }
 
+/* Custom Select Dropdown (Opção 2) */
+/* Controla a altura máxima e adiciona rolagem interna para o seletor de tom */
+.custom-select-options {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.custom-select-option {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.custom-select-option:hover {
+  background-color: var(--secondary);
+}
+
 /* Destaca o campo do formulário que está em foco. */
 .form-input:focus, .form-select:focus {
   outline: none;
@@ -1314,4 +1336,3 @@ a {
   width: 100%;
   min-height: 2.5rem;
 }
-
