@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Louvores</title>
+  <meta name="description" content="Gestão de repertório musical de louvores" />
+  <meta name="author" content="Eliel Maia" />
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Louvores" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Louvores" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="icone.png" />
+  <link rel="apple-touch-icon" href="icone.png" />
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Font Awesome 6 Free -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+
+
+  <div class="area-superior-fixa">
+    <!-- Header -->
+    <header class="cabecalho-container">
+      <div class="cabecalho-conteudo">
+        <div class="cabecalho-secao-titulo">
+          <div>
+            <h1 class="cabecalho-titulo">Louvores</h1>
+            <p class="cabecalho-subtitulo">Gestão de repertório musical</p>
+          </div>
+        </div>
+        <div class="cabecalho-acoes">
+          <button id="btn-instalar-app" class="botao-instalar" title="Instalar Aplicativo">
+            <i class="fa-solid fa-download"></i>
+            <span class="install-text">Instalar</span>
+          </button>
+          <button id="btn-alternar-tema" class="botao-tema" title="Alternar tema">
+            <i id="icone-tema" class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="conteudo-principal topo-controles">
+    <!-- Tab Navigation -->
+    <nav class="lista-abas" aria-label="Abas">
+      <button class="gatilho-aba ativa" data-aba="repertorio" id="tab-repertorio">
+        <span class="gatilho-text">Repertório</span>
+        <span class="badge-aba" id="badge-repertorio">0</span>
+      </button>
+      <button class="gatilho-aba" data-aba="terca" id="tab-terca">
+        <span class="gatilho-text">Terça</span>
+        <span class="badge-aba" id="badge-terca">0</span>
+      </button>
+      <button class="gatilho-aba" data-aba="domingo" id="tab-domingo">
+        <span class="gatilho-text">Domingo</span>
+        <span class="badge-aba" id="badge-domingo">0</span>
+      </button>
+    </nav>
+
+    <!-- Controls Toolbar -->
+    <section class="toolbar-controles" id="toolbar-controles">
+      <div class="pesquisa-wrapper">
+        <i class="fa-solid fa-magnifying-glass pesquisa-icon"></i>
+        <input type="text" id="input-pesquisa" class="pesquisa-input" placeholder="Pesquisar..." autocomplete="off" />
+      </div>
+
+      <div class="toolbar-botoes">
+        <!-- Repertoire Controls -->
+        <button id="btn-adicionar-louvor" class="btn-icon-toolbar btn-adicionar" title="Adicionar Novo Louvor">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <button id="btn-ordenar-uso" class="btn-icon-toolbar" title="Ordenar por uso">
+          <i class="fa-solid fa-arrow-up-short-wide"></i>
+        </button>
+
+        <button id="btn-compartilhar-repertorio" class="btn-icon-toolbar" title="Enviar repertório no WhatsApp">
+          <i class="fa-brands fa-whatsapp" style="color: #16a34a;"></i>
+        </button>
+
+        <!-- Tuesday / Sunday Specific Controls -->
+        <button id="btn-compartilhar-lista" class="btn-whatsapp-lista" style="display: none;" title="Enviar lista no WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Enviar lista</span>
+        </button>
+
+        <button id="btn-historico-toggle" class="btn-icon-toolbar" style="display: none;" title="Alternar histórico">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+      </div>
+    </section>
+
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="conteudo-principal conteudo-lista">
+    <!-- Cards List Container -->
+    <div id="lista-louvores" class="lista-louvores-container">
+      <!-- Loading State initially -->
+      <div class="conteiner-carregamento">
+        <div class="spinner"></div>
+        <p style="color: var(--muted-foreground); font-weight: 600;">Carregando louvores...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Adicionar / Editar Louvor -->
+  <div id="modal-louvor" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-louvor-titulo" class="modal-title">Adicionar Louvor</h2>
+        <p id="modal-louvor-subtitulo" class="modal-description">Adicione um novo louvor ao seu repertório</p>
+      </div>
+      <form id="form-louvor" class="modal-body">
+        <input type="hidden" id="louvor-id" />
+        <div class="form-group">
+          <label for="campo-titulo">Título *</label>
+          <input type="text" id="campo-titulo" class="form-input" placeholder="Nome do louvor" required />
+        </div>
+        <div class="form-group">
+          <label for="campo-artista">Artista *</label>
+          <input type="text" id="campo-artista" class="form-input" placeholder="Nome do artista" required />
+        </div>
+        <div class="form-group">
+          <label for="campo-tonalidade">Tom *</label>
+          <select id="campo-tonalidade" class="form-select" required>
+            <option value="">Selecione o tom</option>
+            <option value="C">C</option><option value="C#">C#</option><option value="D">D</option><option value="D#">D#</option>
+            <option value="E">E</option><option value="F">F</option><option value="F#">F#</option><option value="G">G</option>
+            <option value="G#">G#</option><option value="A">A</option><option value="A#">A#</option><option value="B">B</option>
+            <option value="Cm">Cm</option><option value="C#m">C#m</option><option value="Dm">Dm</option><option value="D#m">D#m</option>
+            <option value="Em">Em</option><option value="Fm">Fm</option><option value="F#m">F#m</option><option value="Gm">Gm</option>
+            <option value="G#m">G#m</option><option value="Am">Am</option><option value="A#m">A#m</option><option value="Bm">Bm</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="campo-cifra">Link da Cifra</label>
+          <input type="url" id="campo-cifra" class="form-input" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label for="campo-letra">Link da Letra</label>
+          <input type="url" id="campo-letra" class="form-input" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label for="campo-youtube">Link do Youtube</label>
+          <input type="url" id="campo-youtube" class="form-input" placeholder="https://..." />
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" id="btn-excluir-modal-louvor" class="btn-modal btn-modal-delete" style="display: none;">
+          <i class="fa-solid fa-trash"></i>
+          <span id="texto-excluir-modal">Excluir</span>
+        </button>
+        <button type="button" class="btn-modal btn-modal-cancel" id="btn-cancelar-louvor">Cancelar</button>
+        <button type="submit" form="form-louvor" class="btn-modal btn-modal-confirm" id="btn-salvar-louvor">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Selecionar Data ("Enviar para Terça/Domingo") -->
+  <div id="modal-data" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-regular fa-calendar" style="color: var(--primary);"></i>
+          Selecionar Data
+        </h2>
+        <p id="modal-data-descricao" class="modal-description">Escolha a data do evento</p>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="campo-data-evento">Data do Evento</label>
+          <input type="date" id="campo-data-evento" class="form-input" required />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--muted-foreground);">
+          Esta data organizará a ordem e o histórico deste louvor.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal btn-modal-cancel" id="btn-cancelar-data">Cancelar</button>
+        <button type="button" class="btn-modal btn-modal-confirm" id="btn-confirmar-data">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação Geral (Excluir / WhatsApp) -->
+  <div id="modal-confirmacao" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 24rem;">
+      <div class="modal-header">
+        <h2 id="modal-confirm-titulo" class="modal-title">Confirmação</h2>
+        <p id="modal-confirm-mensagem" class="modal-description">Deseja prosseguir com esta ação?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal btn-modal-cancel" id="btn-confirm-nao">Não</button>
+        <button type="button" class="btn-modal btn-modal-confirm" id="btn-confirm-sim">Sim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Guia de Instalação PWA (iOS e Android) -->
+  <div id="modal-instalacao" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <img src="icone.png" alt="Louvores" style="width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 0.5rem;" />
+        <h2 id="modal-instalar-titulo" class="modal-title">Instalar Aplicativo</h2>
+        <p class="modal-description">Tenha acesso rápido direto da sua tela inicial</p>
+      </div>
+      <div class="modal-body" id="modal-instalar-corpo">
+        <!-- Renderizado dinamicamente via JS (iOS ou Android) -->
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-modal btn-modal-confirm" id="btn-fechar-instalacao" style="width: 100%;">Entendi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Configurações do Supabase -->
+  <div id="modal-supabase" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 32rem;">
+      <div class="modal-header">
+        <h2 class="modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-database" style="color: var(--primary);"></i>
+          Conexão com o Supabase
+        </h2>
+        <p class="modal-description">Status de sincronização e credenciais do banco em nuvem</p>
+      </div>
+      <div class="modal-body">
+        <div id="status-box-supabase" class="status-box status-box-erro">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+              <span id="modal-status-dot" class="status-dot offline"></span>
+              <span id="modal-status-titulo">Desconectado</span>
+            </div>
+            <span id="modal-status-badge" style="font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 9999px; background: rgba(0,0,0,0.1); font-weight: 600;">Status</span>
+          </div>
+          <p id="modal-status-detalhe" style="margin-top: 0.4rem; font-size: 0.825rem; line-height: 1.4;">
+            Verificando conexão...
+          </p>
+        </div>
+
+        <form id="form-config-supabase" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+          <div class="form-group">
+            <label for="campo-supabase-url">Project URL (Supabase URL) *</label>
+            <input type="url" id="campo-supabase-url" class="form-input" placeholder="https://seu-projeto.supabase.co" required />
+          </div>
+          <div class="form-group">
+            <label for="campo-supabase-key">API Key (Anon / Public Key) *</label>
+            <textarea id="campo-supabase-key" class="form-input" rows="3" placeholder="eyJhbGciOi..." style="resize: vertical; font-family: monospace; font-size: 0.75rem;" required></textarea>
+          </div>
+        </form>
+
+        <div style="margin-top: 0.75rem; padding: 0.75rem; border-radius: 0.5rem; background-color: var(--secondary); font-size: 0.8rem; color: var(--muted-foreground); line-height: 1.4;">
+          <strong>💡 Dica do Supabase:</strong> Se seu projeto estiver no plano gratuito, ele pode ter sido <strong>pausado</strong> por inatividade de 7 dias. Acesse o <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Painel do Supabase</a> e clique em <em>Restore Project</em>.
+        </div>
+
+        <details style="margin-top: 0.75rem; font-size: 0.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+          <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">📋 Ver script SQL para criar as tabelas no Supabase</summary>
+          <div style="margin-top: 0.5rem;">
+            <p style="margin-bottom: 0.5rem; color: var(--muted-foreground);">Execute no <strong>SQL Editor</strong> do seu painel Supabase:</p>
+            <pre style="background: var(--secondary); padding: 0.5rem; border-radius: 0.4rem; overflow-x: auto; font-size: 0.72rem; line-height: 1.3; max-height: 150px; user-select: all;"><code>CREATE TABLE IF NOT EXISTS louvores (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  titulo TEXT NOT NULL,
+  artista TEXT NOT NULL,
+  tonalidade TEXT NOT NULL,
+  letra TEXT,
+  cifra TEXT,
+  youtube TEXT,
+  cadastro TEXT DEFAULT to_char(now(), 'DD/MM/YYYY'),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS terca_louvores (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
+  ordem INTEGER NOT NULL DEFAULT 0,
+  data DATE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS domingo_louvores (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
+  ordem INTEGER NOT NULL DEFAULT 0,
+  data DATE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS louvor_historico (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
+  tab TEXT NOT NULL,
+  data_uso DATE NOT NULL,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE louvores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE terca_louvores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE domingo_louvores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE louvor_historico ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Acesso publico louvores" ON louvores FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acesso publico terca" ON terca_louvores FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acesso publico domingo" ON domingo_louvores FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Acesso publico historico" ON louvor_historico FOR ALL USING (true) WITH CHECK (true);</code></pre>
+          </div>
+        </details>
+      </div>
+      <div class="modal-footer" style="flex-wrap: wrap; gap: 0.5rem; justify-content: space-between;">
+        <div>
+          <button type="button" class="btn-modal btn-modal-cancel" id="btn-restaurar-supabase" style="font-size: 0.8rem; padding: 0.4rem 0.6rem;">Padrão</button>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn-modal btn-modal-cancel" id="btn-cancelar-supabase">Fechar</button>
+          <button type="button" class="btn-modal btn-modal-cancel" id="btn-testar-supabase" style="background-color: var(--secondary); color: var(--foreground);">Testar</button>
+          <button type="submit" form="form-config-supabase" class="btn-modal btn-modal-confirm" id="btn-salvar-supabase">Salvar e Conectar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container de Toasts -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Script Principal da Aplicação -->
+  <script src="script.js"></script>
+</body>
+</html>

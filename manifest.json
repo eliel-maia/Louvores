@@ -1,0 +1,38 @@
+{
+  "name": "Louvores",
+  "short_name": "Louvores",
+  "description": "Gerencie seu repertório de louvores com facilidade",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "window-controls-overlay"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": [
+    "lifestyle",
+    "music",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "icone.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icone.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
