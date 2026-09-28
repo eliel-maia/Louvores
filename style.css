@@ -39,6 +39,7 @@
   --border: #e2e8f0;
   --input: #e2e8f0;
   --ring: #2563eb;
+  --header-system-color: #2563eb;
 
   --radius: 0.75rem;
 
@@ -79,6 +80,7 @@
   --border: #1e293b;
   --input: #1e293b;
   --ring: #3b82f6;
+  --header-system-color: #1d4ed8;
 
   --gradient-warm: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   --gradient-card: linear-gradient(180deg, #111827 0%, #090d16 100%);
@@ -133,7 +135,7 @@ a {
   padding-bottom: 0.5rem;
   padding-left: max(1rem, env(safe-area-inset-left, 0px));
   padding-right: max(1rem, env(safe-area-inset-right, 0px));
-  background: var(--gradient-warm);
+  background: var(--header-system-color);
   box-shadow: var(--shadow-glow);
 }
 
@@ -484,7 +486,7 @@ a {
 }
 
 .grupo-data-titulo {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--foreground);
   text-transform: capitalize;

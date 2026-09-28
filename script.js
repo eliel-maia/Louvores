@@ -1301,10 +1301,18 @@
       }
     }
 
+    const atualizarCorTemaSistema = () => {
+      const cor = getComputedStyle(document.documentElement).getPropertyValue('--header-system-color').trim();
+      const metaTema = document.querySelector('meta[name="theme-color"]');
+      if (metaTema && cor) metaTema.setAttribute('content', cor);
+    };
+    atualizarCorTemaSistema();
+
     if (btnTema) {
       btnTema.onclick = () => {
         const ehEscuro = document.documentElement.classList.toggle('dark');
         localStorage.setItem('theme', ehEscuro ? 'dark' : 'light');
+        atualizarCorTemaSistema();
         if (iconeTema) {
           iconeTema.className = ehEscuro ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
