@@ -175,7 +175,6 @@
         renderizarApp();
       }
 
-      // 1. Carrega o repertório completo de louvores.
       const { data: dadosLouvores, error: erroLouvores } = await supabaseClient
         .from('louvores')
         .select('*')
@@ -186,7 +185,6 @@
       estado.repertorio = todosLouvores;
       salvarCache('louvores_cache_repertorio', todosLouvores);
 
-      // 2. Carrega os louvores organizados para as terças-feiras.
       const { data: dadosTerca, error: erroTerca } = await supabaseClient
         .from('terca_louvores')
         .select('louvor_id, ordem, data')
@@ -204,7 +202,6 @@
         salvarCache('louvores_cache_terca', tercaComOrdem);
       }
 
-      // 3. Carrega os louvores organizados para os domingos.
       const { data: dadosDomingo, error: erroDomingo } = await supabaseClient
         .from('domingo_louvores')
         .select('louvor_id, ordem, data')
@@ -222,7 +219,6 @@
         salvarCache('louvores_cache_domingo', domingoComOrdem);
       }
 
-      // 4. Carrega e organiza o histórico de uso por aba e data.
       const { data: dadosHistorico, error: erroHist } = await supabaseClient
         .from('louvor_historico')
         .select('louvor_id, tab, data_uso, created_at')
@@ -262,9 +258,7 @@
         salvarCache('louvores_cache_hist_domingo', estado.historicoDomingo);
       }
 
-      // 5. Atualiza a frequência de uso dos últimos 12 meses.
       await carregarContagemUso(todosLouvores);
-
       atualizarStatusSupabase('online', 'Conectado e sincronizado com o Supabase com sucesso!');
     } catch (err) {
       console.warn("Aviso ao sincronizar dados com Supabase:", err);
@@ -440,7 +434,6 @@
     const [removido] = lista.splice(indiceInicial, 1);
     lista.splice(indiceFinal, 0, removido);
 
-    // Atualiza a interface imediatamente, antes da confirmação do servidor.
     if (aba === 'terca') estado.terca = lista.map((item, idx) => ({ ...item, ordem: idx }));
     else estado.domingo = lista.map((item, idx) => ({ ...item, ordem: idx }));
     renderizarApp();
@@ -581,7 +574,6 @@
       }
     }
 
-    // Filtrar pesquisa
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
       itens = itens.filter(item =>
@@ -590,12 +582,10 @@
       );
     }
 
-    // Ordenação por uso em repertório
     if (aba === 'repertorio' && estado.ordenarPorUso) {
       itens.sort((a, b) => (b.usageCount || 0) - (a.usageCount || 0));
     }
 
-    // Lista Vazia
     if (itens.length === 0) {
       const subtituloVazio = aba === 'repertorio'
         ? 'Toque no botão + para adicionar seu primeiro louvor'
@@ -612,7 +602,6 @@
       return;
     }
 
-    // Se estiver em modo histórico (agrupado por data)
     if ((aba === 'terca' || aba === 'domingo') && estado.mostrarHistorico) {
       const grupos = {};
       itens.forEach(l => {
@@ -648,7 +637,6 @@
       return;
     }
 
-    // Modo normal (arrastável na terça/domingo e lista padrão no repertório)
     const eArrastavel = (aba === 'terca' || aba === 'domingo') && !estado.mostrarHistorico;
     let cabecalhoData = '';
     if (aba === 'terca' || aba === 'domingo') {
@@ -672,10 +660,9 @@
     }
   }
 
-  // Gera a marcação HTML de um card de louvor.
   function renderizarCardHTML(louvor, aba, arrastavel = false, modoHistorico = false, index = 0) {
     const ehRepertorio = aba === 'repertorio';
-    const chaveTom = louvor.tonalidade ? (louvor.tonalidade.charAt(0).toUpperCase() + louvor.tonalidade.slice(1).toLowerCase()) : '';
+    const chaveTom = louvor.tonalidade ? (louvor.tonalidade.charAt(0).toUpperCase() + louvor.tonalidade.slice(1)) : '';
 
     return `
       <div class="item-arrastavel" data-id="${louvor.id}" data-index="${index}" ${arrastavel ? 'draggable="true"' : ''}>
@@ -744,9 +731,7 @@
     `;
   }
 
-  // Vincular eventos dos cards
   function vincularEventosCards() {
-    // Editar
     document.querySelectorAll('.btn-editar-card').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -758,7 +743,6 @@
       };
     });
 
-    // Excluir de Terça/Domingo
     document.querySelectorAll('.btn-excluir-card').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -771,13 +755,11 @@
       };
     });
 
-    // Abre ou fecha o menu de ações do card.
     document.querySelectorAll('.btn-dropdown-trigger').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
         const dropdown = document.getElementById(`dropdown-${id}`);
-        // Fecha os outros menus antes de abrir este.
         document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => {
           if (d !== dropdown) d.classList.remove('ativo');
         });
@@ -785,7 +767,6 @@
       };
     });
 
-    // Enviar para
     document.querySelectorAll('.btn-enviar-para').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -801,12 +782,17 @@
     });
   }
 
-  // Fecha os menus suspensos quando o usuário clica fora deles.
-  document.addEventListener('click', () => {
+  document.addEventListener('click', (e) => {
     document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => d.classList.remove('ativo'));
+    
+    // Fecha a lista do Custom Select se clicar fora
+    const selectContainer = document.querySelector('.custom-select-container');
+    if (selectContainer && !selectContainer.contains(e.target)) {
+      const optionsContainer = document.getElementById('custom-select-options');
+      if (optionsContainer) optionsContainer.classList.remove('ativo');
+    }
   });
 
-  // Configura a reordenação dos cards com mouse e toque.
   function configurarDragAndDrop(container, aba) {
     let itemArrastando = null;
     let indiceOrigem = null;
@@ -814,7 +800,6 @@
     const itens = container.querySelectorAll('.item-arrastavel');
 
     itens.forEach(item => {
-      // Habilita o arraste e a soltura com mouse em computadores.
       item.addEventListener('dragstart', (e) => {
         itemArrastando = item;
         indiceOrigem = parseInt(item.dataset.index, 10);
@@ -852,7 +837,6 @@
         itemArrastando = null;
       });
 
-      // Habilita o arraste por toque usando o controle do card no celular.
       const handle = item.querySelector('.louvor-drag-handle');
       if (handle) {
         let touchStartY = 0;
@@ -889,7 +873,6 @@
     });
   }
 
-  // Controla a abertura, o fechamento e o conteúdo dos modais.
   function abrirModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -907,6 +890,29 @@
     document.querySelectorAll('.modal-backdrop.aberto').forEach(m => m.classList.remove('aberto'));
   });
 
+  // FUNÇÃO AUXILIAR PARA O CUSTOM SELECT
+  function definirValorCustomSelect(valor) {
+    const inputHidden = document.getElementById('campo-tonalidade');
+    const triggerSpan = document.querySelector('#custom-select-trigger span');
+    const opcoes = document.querySelectorAll('.custom-select-option');
+
+    opcoes.forEach(opt => {
+      if (opt.dataset.value === valor) {
+        opt.classList.add('selecionado');
+      } else {
+        opt.classList.remove('selecionado');
+      }
+    });
+
+    if (valor) {
+      if (inputHidden) inputHidden.value = valor;
+      if (triggerSpan) triggerSpan.textContent = valor;
+    } else {
+      if (inputHidden) inputHidden.value = '';
+      if (triggerSpan) triggerSpan.textContent = 'Selecione o tom';
+    }
+  }
+
   // Modal Louvor (Adicionar/Editar)
   function abrirModalLouvor(louvor = null) {
     estado.louvorEditando = louvor;
@@ -916,7 +922,6 @@
 
     const campoTitulo = document.getElementById('campo-titulo');
     const campoArtista = document.getElementById('campo-artista');
-    const campoTom = document.getElementById('campo-tonalidade');
     const campoCifra = document.getElementById('campo-cifra');
     const campoLetra = document.getElementById('campo-letra');
     const campoYoutube = document.getElementById('campo-youtube');
@@ -929,7 +934,10 @@
 
       campoTitulo.value = louvor.titulo || '';
       campoArtista.value = louvor.artista || '';
-      campoTom.value = louvor.tonalidade || '';
+      
+      // Atualiza o Custom Select com o valor correto
+      definirValorCustomSelect(louvor.tonalidade || '');
+
       campoCifra.value = louvor.cifra || '';
       campoLetra.value = louvor.letra || '';
       campoYoutube.value = louvor.youtube || '';
@@ -940,7 +948,10 @@
 
       campoTitulo.value = '';
       campoArtista.value = '';
-      campoTom.value = '';
+      
+      // Reseta o Custom Select
+      definirValorCustomSelect('');
+
       campoCifra.value = '';
       campoLetra.value = '';
       campoYoutube.value = '';
@@ -962,9 +973,8 @@
 
     if (desc) desc.textContent = `Escolha a data para enviar "${louvor.titulo}" para ${abaAlvo === 'terca' ? 'Terça' : 'Domingo'}`;
 
-    // Sugere a próxima terça-feira ou o próximo domingo.
     const hoje = new Date();
-    const diaSemana = hoje.getDay(); // 0 representa domingo e 2 representa terça-feira.
+    const diaSemana = hoje.getDay();
     const targetDay = abaAlvo === 'terca' ? 2 : 0;
     let diasAte = (targetDay - diaSemana + 7) % 7;
     const dataAlvo = new Date(hoje);
@@ -1056,6 +1066,26 @@
 
   // Inicializa a interface e associa os eventos aos controles.
   function inicializarUI() {
+    // Configura o Custom Select no formulário
+    const triggerSelect = document.getElementById('custom-select-trigger');
+    const optionsSelect = document.getElementById('custom-select-options');
+    
+    if (triggerSelect && optionsSelect) {
+      triggerSelect.onclick = (e) => {
+        e.stopPropagation();
+        optionsSelect.classList.toggle('ativo');
+      };
+
+      document.querySelectorAll('.custom-select-option').forEach(op => {
+        op.onclick = (e) => {
+          e.stopPropagation();
+          const valor = op.dataset.value;
+          definirValorCustomSelect(valor);
+          optionsSelect.classList.remove('ativo');
+        };
+      });
+    }
+
     // Abas
     document.querySelectorAll('.gatilho-aba').forEach(btn => {
       btn.onclick = () => {
@@ -1123,10 +1153,17 @@
     if (formLouvor) {
       formLouvor.onsubmit = (e) => {
         e.preventDefault();
+        
+        const tomSelecionado = document.getElementById('campo-tonalidade').value;
+        if (!tomSelecionado) {
+          mostrarToast("Atenção", "Selecione a tonalidade do louvor.", "error");
+          return;
+        }
+
         const dados = {
           titulo: document.getElementById('campo-titulo').value.trim(),
           artista: document.getElementById('campo-artista').value.trim(),
-          tonalidade: document.getElementById('campo-tonalidade').value,
+          tonalidade: tomSelecionado,
           cifra: document.getElementById('campo-cifra').value.trim(),
           letra: document.getElementById('campo-letra').value.trim(),
           youtube: document.getElementById('campo-youtube').value.trim()
@@ -1284,7 +1321,7 @@
       };
     }
 
-    // Alterna entre os temas escuro e claro e atualiza a barra do sistema.
+    // Alterna entre os temas escuro e claro.
     const btnTema = document.getElementById('btn-alternar-tema');
     const iconeTema = document.getElementById('icone-tema');
 
@@ -1354,7 +1391,7 @@
     if (conteudoLista) conteudoLista.hidden = !autenticado;
   }
 
-  // Autentica contas convidadas pelo painel do Supabase; não há cadastro público.
+  // Autentica contas convidadas pelo painel do Supabase.
   function inicializarAutenticacao() {
     const formLogin = document.getElementById('form-login');
     const campoEmail = document.getElementById('auth-email');
