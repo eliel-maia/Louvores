@@ -1348,12 +1348,10 @@
     const telaAcesso = document.getElementById('auth-screen');
     const areaSuperior = document.querySelector('.area-superior-fixa');
     const conteudoLista = document.querySelector('.conteudo-lista');
-    const btnSair = document.getElementById('btn-sair');
 
     if (telaAcesso) telaAcesso.hidden = autenticado;
     if (areaSuperior) areaSuperior.hidden = !autenticado;
     if (conteudoLista) conteudoLista.hidden = !autenticado;
-    if (btnSair) btnSair.style.display = autenticado ? 'inline-flex' : 'none';
   }
 
   // Autentica contas convidadas pelo painel do Supabase; não há cadastro público.
@@ -1363,7 +1361,6 @@
     const campoSenha = document.getElementById('auth-password');
     const feedback = document.getElementById('auth-feedback');
     const btnLogin = document.getElementById('btn-login');
-    const btnSair = document.getElementById('btn-sair');
 
     if (formLogin) {
       formLogin.onsubmit = async (evento) => {
@@ -1409,14 +1406,6 @@
             btnLogin.textContent = 'Entrar';
           }
         }
-      };
-    }
-
-    if (btnSair) {
-      btnSair.onclick = async () => {
-        if (!supabaseClient) return;
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) mostrarToast('Erro', 'Não foi possível encerrar a sessão.', 'error');
       };
     }
 

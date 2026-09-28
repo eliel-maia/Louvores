@@ -1,5 +1,5 @@
 /* Carrega a família tipográfica usada em toda a interface. */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
 
 /* Reinicialização do CSS e estilos base */
 /* Padroniza o dimensionamento e remove os espaçamentos padrão dos elementos. */
@@ -104,7 +104,7 @@ html {
 @media (max-width: 639px) {
   /* Diminui levemente a escala tipográfica em telas estreitas. */
   html {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
@@ -113,7 +113,7 @@ body {
   min-height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Nunito", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -182,7 +182,7 @@ a {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #000;
   letter-spacing: -0.025em;
 }
 
@@ -196,7 +196,7 @@ a {
 
 /* Estiliza o texto descritivo abaixo do nome do aplicativo. */
 .cabecalho-subtitulo {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(0, 0, 0, 0.85);
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
