@@ -1009,6 +1009,7 @@ a {
   color: var(--foreground);
   font-size: 0.9rem;
   transition: border-color 0.15s ease;
+  text-transform: uppercase;
 }
 
 /* Destaca o campo do formulário que está em foco. */
