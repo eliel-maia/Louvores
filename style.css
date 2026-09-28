@@ -683,11 +683,13 @@ a {
   gap: 0.5rem;
 }
 
-/* Abrevia títulos longos sem alterar a largura do card. */
+/* Modificado para deixar o nome da música sempre em maiúsculo e com maior destaque */
 .louvor-title {
-  font-weight: 700;
-  font-size: 1.05rem;
+  font-weight: 800; /* Deixa o texto em negrito mais encorpado */
+  font-size: 0.95rem; /* Tamanho ajustado e proporcional */
   color: var(--foreground);
+  text-transform: uppercase; /* Força todo o texto a ficar em MAIÚSCULO */
+  letter-spacing: 0.02em; /* Leve espaçamento entre letras para melhor leitura */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
