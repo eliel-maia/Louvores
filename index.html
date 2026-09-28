@@ -7,7 +7,7 @@
   <meta name="description" content="Gestão de repertório musical de louvores" />
   <meta name="author" content="Eliel Maia" />
 
-  <!-- PWA & Mobile Web App Meta Tags -->
+  <!-- Metadados do PWA e da versão para dispositivos móveis -->
   <meta name="theme-color" content="#2563eb" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -15,17 +15,17 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="application-name" content="Louvores" />
 
-  <!-- Icons -->
+  <!-- Ícones do aplicativo -->
   <link rel="icon" type="image/png" href="icone.png" />
   <link rel="apple-touch-icon" href="icone.png" />
 
-  <!-- Manifest -->
+  <!-- Arquivo de configuração do PWA -->
   <link rel="manifest" href="manifest.json" />
 
-  <!-- Stylesheet -->
+  <!-- Folha de estilos -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Font Awesome 6 Free -->
+  <!-- Biblioteca de ícones Font Awesome 6 Free -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
@@ -33,7 +33,7 @@
 
 
   <div class="area-superior-fixa">
-    <!-- Header -->
+    <!-- Cabeçalho do aplicativo -->
     <header class="cabecalho-container">
       <div class="cabecalho-conteudo">
         <div class="cabecalho-secao-titulo">
@@ -55,7 +55,7 @@
     </header>
 
     <div class="conteudo-principal topo-controles">
-    <!-- Tab Navigation -->
+    <!-- Navegação entre as abas -->
     <nav class="lista-abas" aria-label="Abas">
       <button class="gatilho-aba ativa" data-aba="repertorio" id="tab-repertorio">
         <span class="gatilho-text">Repertório</span>
@@ -71,7 +71,7 @@
       </button>
     </nav>
 
-    <!-- Controls Toolbar -->
+    <!-- Barra de controles da aba atual -->
     <section class="toolbar-controles" id="toolbar-controles">
       <div class="pesquisa-wrapper">
         <i class="fa-solid fa-magnifying-glass pesquisa-icon"></i>
@@ -79,7 +79,7 @@
       </div>
 
       <div class="toolbar-botoes">
-        <!-- Repertoire Controls -->
+        <!-- Ações disponíveis no repertório -->
         <button id="btn-adicionar-louvor" class="btn-icon-toolbar btn-adicionar" title="Adicionar Novo Louvor">
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -92,7 +92,7 @@
           <i class="fa-brands fa-whatsapp" style="color: #16a34a;"></i>
         </button>
 
-        <!-- Tuesday / Sunday Specific Controls -->
+        <!-- Ações específicas das escalas de terça e domingo -->
         <button id="btn-compartilhar-lista" class="btn-whatsapp-lista" style="display: none;" title="Enviar lista no WhatsApp">
           <i class="fa-brands fa-whatsapp"></i>
           <span>Enviar lista</span>
@@ -107,11 +107,11 @@
     </div>
   </div>
 
-  <!-- Main Content -->
+  <!-- Conteúdo principal e lista de louvores -->
   <main class="conteudo-principal conteudo-lista">
-    <!-- Cards List Container -->
+    <!-- Contêiner onde os cards são renderizados -->
     <div id="lista-louvores" class="lista-louvores-container">
-      <!-- Loading State initially -->
+      <!-- Indicador exibido enquanto os dados são carregados -->
       <div class="conteiner-carregamento">
         <div class="spinner"></div>
         <p style="color: var(--muted-foreground); font-weight: 600;">Carregando louvores...</p>
@@ -119,13 +119,14 @@
     </div>
   </main>
 
-  <!-- Modal Adicionar / Editar Louvor -->
+  <!-- Modal para adicionar ou editar um louvor -->
   <div id="modal-louvor" class="modal-backdrop">
     <div class="modal-card">
       <div class="modal-header">
         <h2 id="modal-louvor-titulo" class="modal-title">Adicionar Louvor</h2>
         <p id="modal-louvor-subtitulo" class="modal-description">Adicione um novo louvor ao seu repertório</p>
       </div>
+      <!-- Campos com os dados do louvor e seus links. -->
       <form id="form-louvor" class="modal-body">
         <input type="hidden" id="louvor-id" />
         <div class="form-group">
@@ -161,6 +162,7 @@
           <input type="url" id="campo-youtube" class="form-input" placeholder="https://..." />
         </div>
       </form>
+      <!-- Ações para excluir, cancelar ou salvar o louvor. -->
       <div class="modal-footer">
         <button type="button" id="btn-excluir-modal-louvor" class="btn-modal btn-modal-delete" style="display: none;">
           <i class="fa-solid fa-trash"></i>
@@ -172,7 +174,7 @@
     </div>
   </div>
 
-  <!-- Modal Selecionar Data ("Enviar para Terça/Domingo") -->
+  <!-- Modal para escolher a data da escala de terça ou domingo -->
   <div id="modal-data" class="modal-backdrop">
     <div class="modal-card">
       <div class="modal-header">
@@ -198,7 +200,7 @@
     </div>
   </div>
 
-  <!-- Modal de Confirmação Geral (Excluir / WhatsApp) -->
+  <!-- Modal de confirmação para exclusões e envios pelo WhatsApp -->
   <div id="modal-confirmacao" class="modal-backdrop">
     <div class="modal-card" style="max-width: 24rem;">
       <div class="modal-header">
@@ -212,7 +214,7 @@
     </div>
   </div>
 
-  <!-- Modal Guia de Instalação PWA (iOS e Android) -->
+  <!-- Modal com instruções para instalar o PWA no iOS ou Android -->
   <div id="modal-instalacao" class="modal-backdrop">
     <div class="modal-card">
       <div class="modal-header" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
@@ -221,7 +223,7 @@
         <p class="modal-description">Tenha acesso rápido direto da sua tela inicial</p>
       </div>
       <div class="modal-body" id="modal-instalar-corpo">
-        <!-- Renderizado dinamicamente via JS (iOS ou Android) -->
+        <!-- Instruções de instalação inseridas pelo JavaScript conforme o dispositivo. -->
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-modal btn-modal-confirm" id="btn-fechar-instalacao" style="width: 100%;">Entendi</button>
@@ -229,7 +231,7 @@
     </div>
   </div>
 
-  <!-- Modal Configurações do Supabase -->
+  <!-- Modal de conexão e configuração do Supabase -->
   <div id="modal-supabase" class="modal-backdrop">
     <div class="modal-card" style="max-width: 32rem;">
       <div class="modal-header">
@@ -240,6 +242,7 @@
         <p class="modal-description">Status de sincronização e credenciais do banco em nuvem</p>
       </div>
       <div class="modal-body">
+        <!-- Resumo visual do estado da conexão com o banco de dados. -->
         <div id="status-box-supabase" class="status-box status-box-erro">
           <div style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
@@ -253,6 +256,7 @@
           </p>
         </div>
 
+        <!-- Campos para informar o endereço do projeto e a chave pública. -->
         <form id="form-config-supabase" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
           <div class="form-group">
             <label for="campo-supabase-url">Project URL (Supabase URL) *</label>
@@ -268,6 +272,7 @@
           <strong>💡 Dica do Supabase:</strong> Se seu projeto estiver no plano gratuito, ele pode ter sido <strong>pausado</strong> por inatividade de 7 dias. Acesse o <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Painel do Supabase</a> e clique em <em>Restore Project</em>.
         </div>
 
+        <!-- Instruções opcionais para criar as tabelas necessárias no Supabase. -->
         <details style="margin-top: 0.75rem; font-size: 0.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
           <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">📋 Ver script SQL para criar as tabelas no Supabase</summary>
           <div style="margin-top: 0.5rem;">
@@ -334,13 +339,13 @@ CREATE POLICY "Acesso publico historico" ON louvor_historico FOR ALL USING (true
     </div>
   </div>
 
-  <!-- Container de Toasts -->
+  <!-- Contêiner para mensagens temporárias de retorno ao usuário -->
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- Supabase JS CDN -->
+  <!-- Biblioteca JavaScript do Supabase carregada pela CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Script Principal da Aplicação -->
+  <!-- Lógica principal do aplicativo -->
   <script src="script.js"></script>
 </body>
 </html>

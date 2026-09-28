@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  // Configurações do Supabase
+  // Define as credenciais padrão e inicializa a conexão com o Supabase.
   const SUPABASE_URL_PADRAO = "https://atxlxznysjrwacmgnhrm.supabase.co";
   const SUPABASE_ANON_KEY_PADRAO = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0eGx4em55c2pyd2FjbWduaHJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyMTIxMDksImV4cCI6MjA4MDc4ODEwOX0.6_zENptIdtvOBBj7_aEX_kuduTtP7dTdyF2XvcXEB4A";
 
@@ -34,7 +34,7 @@
   }
   inicializarSupabase();
 
-  // Estado Geral da Aplicação
+  // Reúne os dados e controles usados pela interface.
   const estado = {
     repertorio: lerCache('louvores_cache_repertorio') || [],
     terca: lerCache('louvores_cache_terca') || [],
@@ -54,7 +54,7 @@
     deferredPrompt: null
   };
 
-  // Funções Auxiliares de Cache
+  // Lê e grava os dados locais usados para manter o aplicativo disponível offline.
   function lerCache(chave) {
     try {
       const salvo = localStorage.getItem(chave);
@@ -87,17 +87,8 @@
   // Formatação de data em pt-BR
   function formatarData(dataStr) {
     if (!dataStr || dataStr === 'sem-data') return 'Sem data definida';
-    try {
-      const [ano, mes, dia] = dataStr.split('-');
-      const d = new Date(parseInt(ano, 10), parseInt(mes, 10) - 1, parseInt(dia, 10));
-      return d.toLocaleDateString('pt-BR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    } catch {
-      return dataStr;
-    }
+    const partes = dataStr.split('-');
+    return partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : dataStr;
   }
 
   // Normalização para pesquisa sem acentos
@@ -109,7 +100,7 @@
       .toLowerCase();
   }
 
-  // Sistema de Toasts
+  // Cria mensagens temporárias de retorno para as ações do usuário.
   function mostrarToast(titulo, descricao = '', tipo = 'success') {
     const container = document.getElementById('toast-container');
     if (!container) return;
@@ -132,7 +123,7 @@
     }, 3200);
   }
 
-  // Atualização de Status da Conexão Supabase
+  // Atualiza o indicador e os detalhes visuais da conexão com o Supabase.
   function atualizarStatusSupabase(status, mensagem = '') {
     estado.statusSupabase = status;
     if (mensagem) estado.mensagemSupabase = mensagem;
@@ -181,7 +172,7 @@
         renderizarApp();
       }
 
-      // 1. Louvores
+      // 1. Carrega o repertório completo de louvores.
       const { data: dadosLouvores, error: erroLouvores } = await supabaseClient
         .from('louvores')
         .select('*')
@@ -192,7 +183,7 @@
       estado.repertorio = todosLouvores;
       salvarCache('louvores_cache_repertorio', todosLouvores);
 
-      // 2. Terça Louvores
+      // 2. Carrega os louvores organizados para as terças-feiras.
       const { data: dadosTerca, error: erroTerca } = await supabaseClient
         .from('terca_louvores')
         .select('louvor_id, ordem, data')
@@ -210,7 +201,7 @@
         salvarCache('louvores_cache_terca', tercaComOrdem);
       }
 
-      // 3. Domingo Louvores
+      // 3. Carrega os louvores organizados para os domingos.
       const { data: dadosDomingo, error: erroDomingo } = await supabaseClient
         .from('domingo_louvores')
         .select('louvor_id, ordem, data')
@@ -228,7 +219,7 @@
         salvarCache('louvores_cache_domingo', domingoComOrdem);
       }
 
-      // 4. Histórico Completo
+      // 4. Carrega e organiza o histórico de uso por aba e data.
       const { data: dadosHistorico, error: erroHist } = await supabaseClient
         .from('louvor_historico')
         .select('louvor_id, tab, data_uso, created_at')
@@ -268,7 +259,7 @@
         salvarCache('louvores_cache_hist_domingo', estado.historicoDomingo);
       }
 
-      // 5. Contagem de uso dos últimos 12 meses
+      // 5. Atualiza a frequência de uso dos últimos 12 meses.
       await carregarContagemUso(todosLouvores);
 
       atualizarStatusSupabase('online', 'Conectado e sincronizado com o Supabase com sucesso!');
@@ -446,7 +437,7 @@
     const [removido] = lista.splice(indiceInicial, 1);
     lista.splice(indiceFinal, 0, removido);
 
-    // Otimista
+    // Atualiza a interface imediatamente, antes da confirmação do servidor.
     if (aba === 'terca') estado.terca = lista.map((item, idx) => ({ ...item, ordem: idx }));
     else estado.domingo = lista.map((item, idx) => ({ ...item, ordem: idx }));
     renderizarApp();
@@ -484,7 +475,7 @@
       if (!dataExibicao) return;
 
       const musicas = lista.filter(l => l.data === dataExibicao);
-      const dataFormatada = formatarData(dataExibicao);
+      const dataFormatada = dataExibicao.split('-').reverse().join('/');
       const msg = `*Lista de Louvor - ${dataFormatada}*\n\n` +
         musicas.map((l, i) => `${i + 1} - *${l.titulo}* (${l.tonalidade})\n${l.artista}${l.youtube ? `\n${l.youtube}` : ''}`).join("\n\n");
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
@@ -524,8 +515,10 @@
     const btnHist = document.getElementById('btn-historico-toggle');
     const toolbar = document.getElementById('toolbar-controles');
     const estaEmEscala = estado.abaAtiva === 'terca' || estado.abaAtiva === 'domingo';
+    const conteudoLista = document.querySelector('.conteudo-lista');
 
     if (toolbar) toolbar.classList.toggle('toolbar-controles-escala', estaEmEscala);
+    if (conteudoLista) conteudoLista.classList.toggle('conteudo-lista-escala', estaEmEscala);
 
     if (estado.abaAtiva === 'repertorio') {
       if (btnAdd) btnAdd.style.display = 'inline-flex';
@@ -676,7 +669,7 @@
     }
   }
 
-  // HTML individual do Card
+  // Gera a marcação HTML de um card de louvor.
   function renderizarCardHTML(louvor, aba, arrastavel = false, modoHistorico = false, index = 0) {
     const ehRepertorio = aba === 'repertorio';
     const chaveTom = louvor.tonalidade ? (louvor.tonalidade.charAt(0).toUpperCase() + louvor.tonalidade.slice(1).toLowerCase()) : '';
@@ -775,13 +768,13 @@
       };
     });
 
-    // Dropdown Trigger
+    // Abre ou fecha o menu de ações do card.
     document.querySelectorAll('.btn-dropdown-trigger').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
         const dropdown = document.getElementById(`dropdown-${id}`);
-        // Fechar outros
+        // Fecha os outros menus antes de abrir este.
         document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => {
           if (d !== dropdown) d.classList.remove('ativo');
         });
@@ -805,12 +798,12 @@
     });
   }
 
-  // Fechar dropdowns ao clicar fora
+  // Fecha os menus suspensos quando o usuário clica fora deles.
   document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => d.classList.remove('ativo'));
   });
 
-  // Drag and Drop (Desktop e Mobile)
+  // Configura a reordenação dos cards com mouse e toque.
   function configurarDragAndDrop(container, aba) {
     let itemArrastando = null;
     let indiceOrigem = null;
@@ -818,7 +811,7 @@
     const itens = container.querySelectorAll('.item-arrastavel');
 
     itens.forEach(item => {
-      // Desktop
+      // Habilita o arraste e a soltura com mouse em computadores.
       item.addEventListener('dragstart', (e) => {
         itemArrastando = item;
         indiceOrigem = parseInt(item.dataset.index, 10);
@@ -856,7 +849,7 @@
         itemArrastando = null;
       });
 
-      // Mobile Touch Drag no Handle
+      // Habilita o arraste por toque usando o controle do card no celular.
       const handle = item.querySelector('.louvor-drag-handle');
       if (handle) {
         let touchStartY = 0;
@@ -893,7 +886,7 @@
     });
   }
 
-  // Modais e Popups
+  // Controla a abertura, o fechamento e o conteúdo dos modais.
   function abrirModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -966,9 +959,9 @@
 
     if (desc) desc.textContent = `Escolha a data para enviar "${louvor.titulo}" para ${abaAlvo === 'terca' ? 'Terça' : 'Domingo'}`;
 
-    // Sugere próximo dia de terça ou domingo
+    // Sugere a próxima terça-feira ou o próximo domingo.
     const hoje = new Date();
-    const diaSemana = hoje.getDay(); // 0 Dom, 2 Ter
+    const diaSemana = hoje.getDay(); // 0 representa domingo e 2 representa terça-feira.
     const targetDay = abaAlvo === 'terca' ? 2 : 0;
     let diasAte = (targetDay - diaSemana + 7) % 7;
     const dataAlvo = new Date(hoje);
@@ -1058,7 +1051,7 @@
     abrirModal('modal-instalacao');
   }
 
-  // Inicialização e Event Listeners da UI
+  // Inicializa a interface e associa os eventos aos controles.
   function inicializarUI() {
     // Abas
     document.querySelectorAll('.gatilho-aba').forEach(btn => {
@@ -1088,7 +1081,7 @@
       });
     }
 
-    // Botões Toolbar
+    // Configura os botões da barra de controles.
     const btnAdd = document.getElementById('btn-adicionar-louvor');
     if (btnAdd) btnAdd.onclick = () => abrirModalLouvor(null);
 
@@ -1122,7 +1115,7 @@
       renderizarApp();
     };
 
-    // Submissão do Formulário de Louvor
+    // Processa o envio do formulário de cadastro ou edição de louvor.
     const formLouvor = document.getElementById('form-louvor');
     if (formLouvor) {
       formLouvor.onsubmit = (e) => {
@@ -1268,7 +1261,7 @@
       };
     }
 
-    // Botão Instalar no Header
+    // Configura o botão de instalação no cabeçalho.
     const btnInstalar = document.getElementById('btn-instalar-app');
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     if (isStandalone && btnInstalar) {
@@ -1288,7 +1281,7 @@
       };
     }
 
-    // Alternar Tema Escuro / Claro
+    // Alterna entre os temas escuro e claro e atualiza a barra do sistema.
     const btnTema = document.getElementById('btn-alternar-tema');
     const iconeTema = document.getElementById('icone-tema');
 
@@ -1327,7 +1320,7 @@
     }
   }
 
-  // PWA Prompt Listener
+  // Armazena o evento que permite oferecer a instalação do PWA.
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     estado.deferredPrompt = e;
@@ -1335,7 +1328,7 @@
     if (btnInstalar) btnInstalar.style.display = 'inline-flex';
   });
 
-  // Service Worker Registration
+  // Registra o service worker para habilitar cache e uso offline.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
@@ -1344,7 +1337,7 @@
     });
   }
 
-  // Inicialização
+  // Prepara a interface e inicia o carregamento dos dados.
   document.addEventListener('DOMContentLoaded', () => {
     inicializarUI();
     renderizarApp();
