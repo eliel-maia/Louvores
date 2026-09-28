@@ -1,8 +1,7 @@
-/* Carrega a família tipográfica usada em toda a interface. */
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
+/* Carrega os estilos da biblioteca Font Awesome */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
 
 /* Reinicialização do CSS e estilos base */
-/* Padroniza o dimensionamento e remove os espaçamentos padrão dos elementos. */
 *,
 *::before,
 *::after {
@@ -102,18 +101,17 @@ html {
 
 /* Reduz a fonte base em telas de celular. */
 @media (max-width: 639px) {
-  /* Diminui levemente a escala tipográfica em telas estreitas. */
   html {
     font-size: 14px;
   }
 }
 
-/* Define o fundo da página, a cor do texto e a fonte global. */
+/* Aplica a fonte Font Awesome globalmente */
 body {
   min-height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Nunito", sans-serif;
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -141,7 +139,6 @@ a {
 }
 
 /* Cabeçalho */
-/* Estiliza a faixa colorida e respeita as áreas seguras do dispositivo. */
 .cabecalho-container {
   padding-top: max(1.5rem, calc(0.75rem + env(safe-area-inset-top, 0px)));
   padding-bottom: 0.5rem;
@@ -151,7 +148,6 @@ a {
   box-shadow: var(--shadow-glow);
 }
 
-/* Mantém o cabeçalho e a barra de controles fixos acima da lista rolável. */
 .area-superior-fixa {
   position: sticky;
   top: 0;
@@ -160,7 +156,6 @@ a {
   box-shadow: none;
 }
 
-/* Alinha o título e as ações do cabeçalho à largura do conteúdo. */
 .cabecalho-conteudo {
   width: 100%;
   max-width: 56rem;
@@ -170,14 +165,12 @@ a {
   justify-content: space-between;
 }
 
-/* Organiza a área do título e os elementos ao lado dela. */
 .cabecalho-secao-titulo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-/* Define o tamanho e o destaque do nome principal do aplicativo. */
 .cabecalho-titulo {
   font-size: 1.6rem;
   line-height: 2rem;
@@ -186,29 +179,24 @@ a {
   letter-spacing: -0.025em;
 }
 
-/* Ajusta o título do aplicativo no ponto de quebra para telas grandes. */
 @media (min-width: 768px) {
-  /* Aumenta o nome do aplicativo em telas grandes. */
   .cabecalho-titulo {
     font-size: 1.875rem;
   }
 }
 
-/* Estiliza o texto descritivo abaixo do nome do aplicativo. */
 .cabecalho-subtitulo {
   color: rgba(0, 0, 0, 0.85);
   font-size: 1.0rem;
   line-height: 1.25rem;
 }
 
-/* Organiza os botões de ação do cabeçalho em uma linha. */
 .cabecalho-acoes {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* Estiliza o botão de instalação do PWA no cabeçalho. */
 .botao-instalar {
   display: inline-flex;
   align-items: center;
@@ -223,32 +211,26 @@ a {
   backdrop-filter: blur(4px);
 }
 
-/* Destaca a ação de instalação quando o cursor passa sobre ela. */
 .botao-instalar:hover {
   background-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
 }
 
-/* Dimensiona o ícone de instalação em relação ao rótulo. */
 .botao-instalar svg {
   width: 1rem;
   height: 1rem;
 }
 
-/* Oculta o rótulo de instalação enquanto não houver espaço suficiente. */
 .install-text {
   display: none;
 }
 
-/* Exibe o rótulo de instalação quando a tela tiver largura suficiente. */
 @media (min-width: 640px) {
-  /* Mostra o rótulo de instalação em telas mais largas. */
   .install-text {
     display: inline;
   }
 }
 
-/* Cria um botão circular de tamanho fixo para alternar o tema. */
 .botao-tema {
   width: 2.25rem;
   height: 2.25rem;
@@ -261,25 +243,20 @@ a {
   transition: background-color 0.2s ease;
 }
 
-/* Escurece o botão de tema ao passar o cursor. */
 .botao-tema:hover {
   background-color: rgba(0, 0, 0, 0.35);
 }
 
-/* Define as dimensões do ícone de tema. */
 .botao-tema svg {
   width: 1.25rem;
   height: 1.25rem;
 }
 
-/* Compacta e reposiciona o cabeçalho em celulares. */
 @media (max-width: 639px) {
-  /* Reduz a altura do cabeçalho e respeita a área da barra de status. */
   .cabecalho-container {
     padding-top: max(1rem, calc(0.5rem + env(safe-area-inset-top, 0px)));
   }
 
-  /* Move o título um pouco para cima e para dentro em telas estreitas. */
   .cabecalho-secao-titulo {
     margin-left: 0.5rem;
     transform: translateY(-0.35rem);
@@ -287,7 +264,6 @@ a {
 }
 
 /* Conteúdo principal */
-/* Limita a largura do conteúdo e o alinha ao cabeçalho. */
 .conteudo-principal {
   width: 100%;
   max-width: 56rem;
@@ -298,24 +274,20 @@ a {
   padding-bottom: max(3rem, calc(2rem + env(safe-area-inset-bottom, 0px)));
 }
 
-/* Compacta a área das abas e dos controles abaixo do cabeçalho. */
 .topo-controles {
   padding-top: 0.75rem;
   padding-bottom: 0.25rem;
 }
 
-/* Mantém um espaço maior antes da lista do repertório. */
 .conteudo-lista {
   padding-top: 1.00rem;
 }
 
-/* Mantém as listas das escalas próximas dos controles fixos. */
 .conteudo-lista-escala {
   padding-top: 0.25rem;
 }
 
 /* Navegação por abas */
-/* Distribui as três seções do aplicativo em abas de mesma largura. */
 .lista-abas {
   width: 100%;
   display: grid;
@@ -328,7 +300,6 @@ a {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Define o tamanho e o alinhamento dos botões das abas. */
 .gatilho-aba {
   display: flex;
   align-items: center;
@@ -342,9 +313,7 @@ a {
   transition: all 0.2s ease;
 }
 
-/* Amplia os rótulos e a área de toque das abas em telas maiores. */
 @media (min-width: 640px) {
-  /* Reserva mais espaço para os rótulos em telas maiores. */
   .gatilho-aba {
     font-size: 1rem;
     gap: 0.5rem;
@@ -352,21 +321,18 @@ a {
   }
 }
 
-/* Destaca visualmente a aba selecionada. */
 .gatilho-aba.ativa {
   background: var(--gradient-warm);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-/* Impede que rótulos longos aumentem a coluna da grade. */
 .gatilho-text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Exibe a quantidade de itens ao lado do rótulo da aba. */
 .badge-aba {
   padding: 0.125rem 0.45rem;
   font-size: 0.75rem;
@@ -378,14 +344,12 @@ a {
   transition: all 0.2s ease;
 }
 
-/* Ajusta a aparência do contador ao fundo da aba selecionada. */
 .gatilho-aba.ativa .badge-aba {
   background-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
 }
 
-/* Barra de controles (pesquisa, adicionar, ordenar, WhatsApp e histórico) */
-/* Alinha o campo de pesquisa e as ações em uma única linha. */
+/* Barra de controles */
 .toolbar-controles {
   display: flex;
   align-items: center;
@@ -393,25 +357,21 @@ a {
   margin-bottom: 0.25rem;
 }
 
-/* Oculta a pesquisa quando a aba Terça ou Domingo está selecionada. */
 .toolbar-controles-escala .pesquisa-wrapper {
   display: none;
 }
 
-/* Posiciona as ações da escala em extremidades opostas da barra. */
 .toolbar-controles-escala .toolbar-botoes {
   width: 100%;
   justify-content: space-between;
 }
 
-/* Reserva espaço flexível para o campo de pesquisa. */
 .pesquisa-wrapper {
   position: relative;
   flex: 1;
   max-width: 24rem;
 }
 
-/* Posiciona a lupa dentro do campo de pesquisa. */
 .pesquisa-icon {
   position: absolute;
   left: 0.75rem;
@@ -423,7 +383,6 @@ a {
   pointer-events: none;
 }
 
-/* Estiliza o campo de texto usado para filtrar louvores. */
 .pesquisa-input {
   width: 100%;
   height: 2.35rem;
@@ -437,21 +396,18 @@ a {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Destaca o campo de pesquisa enquanto recebe foco do teclado. */
 .pesquisa-input:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
-/* Alinha as ações da barra com espaçamento uniforme. */
 .toolbar-botoes {
   display: flex;
   align-items: center;
   gap: 0.35rem;
 }
 
-/* Mantém uma área de toque estável nos botões apenas com ícone. */
 .btn-icon-toolbar {
   width: 2.35rem;
   height: 2.35rem;
@@ -466,37 +422,31 @@ a {
   flex-shrink: 0;
 }
 
-/* Destaca os botões de ícone da barra ao passar o cursor. */
 .btn-icon-toolbar:hover {
   color: var(--foreground);
   border-color: var(--primary);
 }
 
-/* Define o tamanho dos ícones nos botões da barra. */
 .btn-icon-toolbar svg {
   width: 1.1rem;
   height: 1.1rem;
 }
 
-/* Colore de verde a ação de adicionar louvor. */
 .btn-adicionar {
   color: #16a34a;
 }
 
-/* Destaca a ação de adicionar louvor ao passar o cursor. */
 .btn-adicionar:hover {
   background-color: rgba(22, 163, 74, 0.1);
   color: #15803d;
 }
 
-/* Indica que uma ação da barra está ativada. */
 .btn-toolbar-ativo {
   background: var(--gradient-warm);
   color: #ffffff !important;
   border-color: transparent;
 }
 
-/* Estiliza o botão de envio da lista da escala pelo WhatsApp. */
 .btn-whatsapp-lista {
   height: 2.35rem;
   padding: 0 1rem;
@@ -512,32 +462,27 @@ a {
   transition: all 0.15s ease;
 }
 
-/* Destaca o envio da lista pelo WhatsApp ao passar o cursor. */
 .btn-whatsapp-lista:hover {
   background-color: rgba(22, 163, 74, 0.1);
   color: #15803d;
 }
 
-/* Define o tamanho do ícone do WhatsApp no botão de envio. */
 .btn-whatsapp-lista svg {
   width: 1.1rem;
   height: 1.1rem;
 }
 
 /* Cards de louvor e grupos */
-/* Empilha os cards de louvor com espaçamento uniforme. */
 .lista-louvores-container {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
 }
 
-/* Separa um grupo de datas do histórico do próximo. */
 .grupo-data-container {
   margin-bottom: 2.5rem;
 }
 
-/* Organiza a data, o ícone de calendário e a quantidade de louvores. */
 .grupo-data-header {
   display: flex;
   align-items: center;
@@ -547,25 +492,21 @@ a {
   margin-bottom: 0.75rem;
 }
 
-/* Reduz o espaço do cabeçalho de data nas escalas de terça e domingo. */
 .conteudo-lista-escala .grupo-data-header {
   padding-bottom: 0.25rem;
   margin-bottom: 0.55rem;
 }
 
-/* Reduz o espaço entre grupos do histórico nas abas de escala. */
 .conteudo-lista-escala .grupo-data-container {
   margin-bottom: 0.75rem;
 }
 
-/* Define a cor e o tamanho do calendário no cabeçalho da data. */
 .grupo-data-header svg {
   width: 1.2rem;
   height: 1.2rem;
   color: var(--primary);
 }
 
-/* Estiliza a data exibida acima de um grupo de louvores. */
 .grupo-data-titulo {
   font-size: 0.85rem;
   font-weight: 700;
@@ -574,7 +515,6 @@ a {
   flex: 1;
 }
 
-/* Exibe a quantidade de louvores associada à data. */
 .grupo-data-contador {
   font-size: 0.75rem;
   font-weight: 700;
@@ -585,7 +525,6 @@ a {
 }
 
 /* Card de louvor */
-/* Define o fundo, a borda, o espaçamento e a sombra do card. */
 .louvor-card {
   padding: 0.85rem;
   padding-bottom: 1.25rem;
@@ -597,38 +536,32 @@ a {
   position: relative;
 }
 
-/* Destaca o card quando o cursor passa sobre ele. */
 .louvor-card:hover {
   box-shadow: var(--shadow-card-hover);
   border-color: rgba(37, 99, 235, 0.3);
 }
 
-/* Prepara o contêiner do card para reposicionamento por arrastar e soltar. */
 .item-arrastavel {
   position: relative;
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
-/* Reduz a opacidade e o tamanho do card que está sendo arrastado. */
 .item-arrastavel.dragging {
   opacity: 0.45;
   transform: scale(0.98);
 }
 
-/* Indica onde o card será solto durante a reordenação. */
 .item-arrastavel.over {
   border-top: 3px solid var(--primary);
   border-radius: var(--radius);
 }
 
-/* Empilha verticalmente o título e o rodapé do card. */
 .louvor-content {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-/* Alinha as informações do louvor aos botões de ação. */
 .louvor-header {
   display: flex;
   justify-content: space-between;
@@ -636,7 +569,6 @@ a {
   gap: 0.5rem;
 }
 
-/* Mantém o controle de arraste e os detalhes do louvor alinhados. */
 .louvor-drag-section {
   display: flex;
   align-items: flex-start;
@@ -645,7 +577,6 @@ a {
   flex: 1;
 }
 
-/* Identifica o controle usado para arrastar e reordenar. */
 .louvor-drag-handle {
   margin-top: 0.15rem;
   cursor: grab;
@@ -658,32 +589,27 @@ a {
   touch-action: none;
 }
 
-/* Exibe o cursor de arraste enquanto o louvor é reordenado. */
 .louvor-drag-handle:active {
   cursor: grabbing;
   color: var(--primary);
 }
 
-/* Define as dimensões do ícone de arraste. */
 .louvor-drag-handle svg {
   width: 1.25rem;
   height: 1.25rem;
 }
 
-/* Permite que os detalhes do louvor ocupem a largura disponível. */
 .louvor-info {
   min-width: 0;
   flex: 1;
 }
 
-/* Posiciona o título do louvor ao lado do contador de uso. */
 .louvor-title-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* Abrevia títulos longos sem alterar a largura do card. */
 .louvor-title {
   font-weight: 700;
   font-size: 1.05rem;
@@ -694,7 +620,6 @@ a {
   line-height: 1.3;
 }
 
-/* Mostra quantas vezes o louvor foi usado no período recente. */
 .louvor-usage-badge {
   display: inline-flex;
   align-items: center;
@@ -710,7 +635,6 @@ a {
   flex-shrink: 0;
 }
 
-/* Exibe o nome do artista em uma linha como informação secundária. */
 .louvor-artist {
   color: var(--muted-foreground);
   font-size: 0.85rem;
@@ -719,7 +643,6 @@ a {
   text-overflow: ellipsis;
 }
 
-/* Organiza as ações do louvor sem reduzir o tamanho dos botões. */
 .louvor-actions {
   display: flex;
   align-items: center;
@@ -728,7 +651,6 @@ a {
   position: relative;
 }
 
-/* Mantém uma área de toque uniforme para cada ação do louvor. */
 .louvor-action-btn {
   width: 2rem;
   height: 2rem;
@@ -740,31 +662,26 @@ a {
   transition: all 0.15s ease;
 }
 
-/* Destaca as ações do louvor ao passar o cursor. */
 .louvor-action-btn:hover {
   color: var(--foreground);
   background-color: var(--secondary);
 }
 
-/* Usa a cor de ação destrutiva ao destacar a exclusão. */
 .louvor-action-btn.delete-btn:hover {
   color: var(--destructive);
   background-color: rgba(239, 68, 68, 0.1);
 }
 
-/* Define as dimensões dos ícones de ação do louvor. */
 .louvor-action-btn svg {
   width: 1rem;
   height: 1rem;
 }
 
 /* Menu suspenso de envio */
-/* Posiciona o menu de envio em relação ao botão que o abre. */
 .dropdown-menu-wrapper {
   position: relative;
 }
 
-/* Posiciona e estiliza o menu oculto para compartilhar o louvor. */
 .dropdown-menu-content {
   display: none;
   position: absolute;
@@ -781,12 +698,10 @@ a {
   animation: fadeIn 0.15s ease-out;
 }
 
-/* Exibe o menu de envio enquanto ele estiver ativo. */
 .dropdown-menu-content.ativo {
   display: block;
 }
 
-/* Estiliza cada opção de destino do menu de envio. */
 .dropdown-item {
   width: 100%;
   text-align: left;
@@ -801,13 +716,11 @@ a {
   gap: 0.5rem;
 }
 
-/* Destaca uma opção do menu de envio ao passar o cursor. */
 .dropdown-item:hover {
   background-color: var(--secondary);
 }
 
 /* Rodapé do card (tom e links externos) */
-/* Alinha o tom do louvor aos links de recursos externos. */
 .louvor-footer {
   display: flex;
   align-items: center;
@@ -816,7 +729,6 @@ a {
   margin-top: 0.35rem;
 }
 
-/* Destaca o tom musical do louvor. */
 .louvor-key-badge {
   display: inline-block;
   padding: 0.15rem 0.55rem;
@@ -827,14 +739,12 @@ a {
   font-size: 0.95rem;
 }
 
-/* Mantém os botões de recursos externos agrupados em uma linha. */
 .louvor-links {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-/* Estiliza os links de letra, cifra e vídeo de cada card. */
 .louvor-link-button {
   display: inline-flex;
   align-items: center;
@@ -851,14 +761,12 @@ a {
   transition: all 0.15s ease;
 }
 
-/* Destaca um link externo ao passar o cursor. */
 .louvor-link-button:hover {
   background-color: var(--primary);
   color: #ffffff;
 }
 
 /* Estados vazio e de carregamento */
-/* Centraliza a mensagem exibida quando a lista não tem resultados. */
 .lista-vazia-container {
   display: flex;
   flex-direction: column;
@@ -869,7 +777,6 @@ a {
   text-align: center;
 }
 
-/* Reduz o destaque da ilustração do estado vazio. */
 .lista-vazia-container svg {
   width: 3.5rem;
   height: 3.5rem;
@@ -877,7 +784,6 @@ a {
   opacity: 0.4;
 }
 
-/* Destaca o título do estado vazio. */
 .lista-vazia-titulo {
   font-size: 1.15rem;
   font-weight: 700;
@@ -885,12 +791,10 @@ a {
   margin-bottom: 0.25rem;
 }
 
-/* Estiliza a mensagem complementar do estado vazio. */
 .lista-vazia-subtitulo {
   font-size: 0.875rem;
 }
 
-/* Centraliza o indicador de carregamento na área visível. */
 .conteiner-carregamento {
   min-height: 50vh;
   display: flex;
@@ -900,7 +804,6 @@ a {
   gap: 1rem;
 }
 
-/* Desenha o indicador circular de carregamento. */
 .spinner {
   width: 2.5rem;
   height: 2.5rem;
@@ -910,16 +813,13 @@ a {
   animation: spin 0.8s linear infinite;
 }
 
-/* Gira o indicador de carregamento continuamente. */
 @keyframes spin {
-  /* Completa uma volta inteira do indicador. */
   to {
     transform: rotate(360deg);
   }
 }
 
 /* Modais e diálogos */
-/* Cobre o aplicativo e centraliza o diálogo ativo. */
 .modal-backdrop {
   display: none;
   position: fixed;
@@ -933,12 +833,10 @@ a {
   animation: fadeIn 0.2s ease-out;
 }
 
-/* Exibe o fundo de sobreposição enquanto um modal está aberto. */
 .modal-backdrop.aberto {
   display: flex;
 }
 
-/* Limita o tamanho do modal e organiza suas seções verticalmente. */
 .modal-card {
   width: 100%;
   max-width: 28rem;
@@ -953,12 +851,10 @@ a {
   animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Define o espaçamento do título e da descrição do modal. */
 .modal-header {
   padding: 1.25rem 1.25rem 0.75rem 1.25rem;
 }
 
-/* Destaca o título do modal. */
 .modal-title {
   font-size: 1.25rem;
   font-weight: 800;
@@ -966,14 +862,12 @@ a {
   line-height: 1.3;
 }
 
-/* Estiliza o texto complementar abaixo do título do modal. */
 .modal-description {
   font-size: 0.85rem;
   color: var(--muted-foreground);
   margin-top: 0.25rem;
 }
 
-/* Permite rolar o formulário sem ocultar as ações do modal. */
 .modal-body {
   padding: 0.5rem 1.25rem 1rem 1.25rem;
   overflow-y: auto;
@@ -982,21 +876,18 @@ a {
   gap: 0.85rem;
 }
 
-/* Empilha o rótulo e o respectivo controle do formulário. */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
-/* Diferencia os rótulos dos valores preenchidos no formulário. */
 .form-group label {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--foreground);
 }
 
-/* Padroniza a aparência dos campos de texto e das listas de seleção. */
 .form-input, .form-select {
   width: 100%;
   height: 2.4rem;
@@ -1009,14 +900,12 @@ a {
   transition: border-color 0.15s ease;
 }
 
-/* Destaca o campo do formulário que está em foco. */
 .form-input:focus, .form-select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
-/* Alinha as ações do modal em um rodapé flexível. */
 .modal-footer {
   padding: 0.85rem 1.25rem;
   background-color: var(--secondary);
@@ -1027,7 +916,6 @@ a {
   flex-wrap: wrap;
 }
 
-/* Padroniza as dimensões e o alinhamento dos botões dos modais. */
 .btn-modal {
   height: 2.25rem;
   padding: 0 1rem;
@@ -1041,43 +929,36 @@ a {
   transition: all 0.15s ease;
 }
 
-/* Estiliza uma ação secundária do modal. */
 .btn-modal-cancel {
   border: 1px solid var(--border);
   background-color: var(--card);
   color: var(--foreground);
 }
 
-/* Destaca a ação secundária do modal ao passar o cursor. */
 .btn-modal-cancel:hover {
   background-color: var(--secondary);
 }
 
-/* Destaca a ação destrutiva do modal. */
 .btn-modal-delete {
   background-color: var(--destructive);
   color: #ffffff;
   margin-right: auto;
 }
 
-/* Escurece a ação destrutiva ao passar o cursor. */
 .btn-modal-delete:hover {
   background-color: #dc2626;
 }
 
-/* Aplica a cor principal do tema à ação de confirmação. */
 .btn-modal-confirm {
   background: var(--gradient-warm);
   color: #ffffff;
 }
 
-/* Reduz levemente a opacidade da confirmação ao passar o cursor. */
 .btn-modal-confirm:hover {
   opacity: 0.92;
 }
 
 /* Notificações toast */
-/* Posiciona mensagens temporárias próximo à borda da tela. */
 .toast-container {
   position: fixed;
   bottom: max(1.5rem, calc(1rem + env(safe-area-inset-bottom, 0px)));
@@ -1090,7 +971,6 @@ a {
   max-width: 90vw;
 }
 
-/* Estiliza uma notificação e sua animação de entrada. */
 .toast {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -1105,60 +985,45 @@ a {
   pointer-events: auto;
 }
 
-/* Identifica mensagens de sucesso com um detalhe verde. */
 .toast-success {
   border-left: 4px solid #16a34a;
 }
 
-/* Identifica mensagens de erro com um detalhe vermelho. */
 .toast-error {
   border-left: 4px solid #ef4444;
 }
 
-/* Identifica mensagens informativas com um detalhe azul. */
 .toast-info {
   border-left: 4px solid #2563eb;
 }
 
-/* Destaca o título da notificação. */
 .toast-title {
   font-weight: 700;
   font-size: 0.9rem;
 }
 
-/* Estiliza a descrição complementar da notificação. */
 .toast-desc {
   font-size: 0.8rem;
   color: var(--muted-foreground);
 }
 
 /* Animações */
-/* Faz os elementos aparecerem gradualmente. */
 @keyframes fadeIn {
-  /* Inicia totalmente transparente. */
   from { opacity: 0; }
-  /* Termina totalmente visível. */
   to { opacity: 1; }
 }
 
-/* Aumenta suavemente os elementos até o tamanho final. */
 @keyframes scaleIn {
-  /* Inicia um pouco menor e transparente. */
   from { opacity: 0; transform: scale(0.95); }
-  /* Termina no tamanho normal e totalmente visível. */
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Move os elementos para cima enquanto aparecem. */
 @keyframes slideUp {
-  /* Inicia abaixo da posição final. */
   from { opacity: 0; transform: translateY(12px); }
-  /* Termina na posição natural do elemento. */
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* Indicador e status do Supabase */
-/* Estiliza o controle de status da conexão no cabeçalho. */
 .botao-conexao {
   display: inline-flex;
   align-items: center;
@@ -1175,13 +1040,11 @@ a {
   cursor: pointer;
 }
 
-/* Destaca o controle de conexão ao passar o cursor. */
 .botao-conexao:hover {
   background-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
 }
 
-/* Desenha o indicador circular do estado da conexão. */
 .status-dot {
   width: 8px;
   height: 8px;
@@ -1190,36 +1053,28 @@ a {
   flex-shrink: 0;
 }
 
-/* Colore o indicador quando o serviço está conectado. */
 .status-dot.online {
   background-color: #22c55e;
   box-shadow: 0 0 8px #22c55e;
 }
 
-/* Colore o indicador quando o serviço está indisponível. */
 .status-dot.offline {
   background-color: #ef4444;
   box-shadow: 0 0 8px #ef4444;
 }
 
-/* Anima o indicador durante a verificação da conexão. */
 .status-dot.checking {
   background-color: #f59e0b;
   box-shadow: 0 0 8px #f59e0b;
   animation: pulsoStatus 1.5s infinite;
 }
 
-/* Pulsa o indicador para mostrar que a verificação está em andamento. */
 @keyframes pulsoStatus {
-  /* Reduz levemente o tamanho e o brilho do indicador. */
   0% { transform: scale(0.9); opacity: 0.7; }
-  /* Aumenta o tamanho e o brilho no meio da pulsação. */
   50% { transform: scale(1.2); opacity: 1; }
-  /* Retorna ao tamanho e à opacidade iniciais. */
   100% { transform: scale(0.9); opacity: 0.7; }
 }
 
-/* Define o estilo comum das mensagens de status da conexão. */
 .status-box {
   padding: 0.8rem 1rem;
   border-radius: var(--radius);
@@ -1227,28 +1082,24 @@ a {
   transition: all 0.3s ease;
 }
 
-/* Usa cores de erro quando a conexão falha. */
 .status-box-erro {
   background-color: rgba(239, 68, 68, 0.08);
   border-color: rgba(239, 68, 68, 0.3);
   color: #ef4444;
 }
 
-/* Usa cores de sucesso quando a conexão é estabelecida. */
 .status-box-ok {
   background-color: rgba(34, 197, 94, 0.08);
   border-color: rgba(34, 197, 94, 0.3);
   color: #16a34a;
 }
 
-/* Usa cores de aviso enquanto a conexão está sendo verificada. */
 .status-box-alerta {
   background-color: rgba(245, 158, 11, 0.08);
   border-color: rgba(245, 158, 11, 0.3);
   color: #d97706;
 }
 
-/* Centraliza a tela de acesso antes de exibir o repertório protegido. */
 .auth-screen {
   min-height: 100vh;
   min-height: 100dvh;
@@ -1258,12 +1109,10 @@ a {
   background: var(--background);
 }
 
-/* Garante que a tela de acesso desapareça quando a sessão for autenticada. */
 .auth-screen[hidden] {
   display: none;
 }
 
-/* Apresenta o formulário de acesso com as superfícies do tema atual. */
 .auth-panel {
   width: min(100%, 26rem);
   padding: 1.5rem;
@@ -1273,7 +1122,6 @@ a {
   box-shadow: var(--shadow-card);
 }
 
-/* Organiza o título e a orientação de acesso. */
 .auth-heading {
   margin-bottom: 1.5rem;
 }
@@ -1290,23 +1138,19 @@ a {
   font-size: 0.9rem;
 }
 
-/* Empilha os campos e a ação de entrada. */
 .auth-form {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 }
 
-/* Reserva espaço para mensagens sem deslocar o botão. */
 .auth-feedback {
   min-height: 1.2rem;
   color: var(--destructive);
   font-size: 0.85rem;
 }
 
-/* Ocupa a largura do formulário e mantém uma altura confortável ao toque. */
 .auth-submit {
   width: 100%;
   min-height: 2.5rem;
 }
-
