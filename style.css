@@ -338,7 +338,7 @@ a {
   border-radius: calc(var(--radius) - 4px);
   color: var(--muted-foreground);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
 }
 
