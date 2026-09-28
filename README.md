@@ -1,4 +1,4 @@
-# Louvores - Progressive Web App (PWA)
+# Louvores 
 
 Aplicativo web progressivo (PWA) para gestão e organização de repertório de louvores musicais, escalas de Terça e Domingo, cálculo de frequência de uso, reordenação arrastável (drag & drop) e compartilhamento rápido pelo WhatsApp.
 
@@ -30,13 +30,6 @@ O projeto foi simplificado para funcionar sem etapas complexas de compilação o
 
 Você pode abrir o projeto usando qualquer servidor web estático:
 
-```bash
-# Opção 1: Usando npx serve
-npx serve .
-
-# Opção 2: Usando Python
-python -m http.server 3000
-
-# Opção 3: Usando extensão Live Server no VS Code
+# Opção 1: Usando extensão Live Server no VS Code
 # Basta clicar com o botão direito no index.html e selecionar "Open with Live Server"
 ```
