@@ -31,8 +31,29 @@
 <body>
 
 
+  <!-- Acesso por convite: as contas são criadas no painel do Supabase. -->
+  <main id="auth-screen" class="auth-screen">
+    <section class="auth-panel" aria-labelledby="auth-title">
+      <div class="auth-heading">
+        <h1 id="auth-title">Acesso ao repertório</h1>
+        <p>Entre com o e-mail e a senha da sua conta.</p>
+      </div>
+      <form id="form-login" class="auth-form">
+        <div class="form-group">
+          <label for="auth-email">E-mail</label>
+          <input id="auth-email" class="form-input" type="email" autocomplete="username" required />
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Senha</label>
+          <input id="auth-password" class="form-input" type="password" autocomplete="current-password" required />
+        </div>
+        <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+        <button id="btn-login" class="btn-modal btn-modal-confirm auth-submit" type="submit">Entrar</button>
+      </form>
+    </section>
+  </main>
 
-  <div class="area-superior-fixa">
+  <div class="area-superior-fixa" hidden>
     <!-- Cabeçalho do aplicativo -->
     <header class="cabecalho-container">
       <div class="cabecalho-conteudo">
@@ -46,6 +67,9 @@
           <button id="btn-instalar-app" class="botao-instalar" title="Instalar Aplicativo">
             <i class="fa-solid fa-download"></i>
             <span class="install-text">Instalar</span>
+          </button>
+          <button id="btn-sair" class="botao-tema" title="Sair da conta" style="display: none;">
+            <i class="fa-solid fa-right-from-bracket"></i>
           </button>
           <button id="btn-alternar-tema" class="botao-tema" title="Alternar tema">
             <i id="icone-tema" class="fa-solid fa-moon"></i>
@@ -108,7 +132,7 @@
   </div>
 
   <!-- Conteúdo principal e lista de louvores -->
-  <main class="conteudo-principal conteudo-lista">
+  <main class="conteudo-principal conteudo-lista" hidden>
     <!-- Contêiner onde os cards são renderizados -->
     <div id="lista-louvores" class="lista-louvores-container">
       <!-- Indicador exibido enquanto os dados são carregados -->
@@ -272,59 +296,6 @@
           <strong>💡 Dica do Supabase:</strong> Se seu projeto estiver no plano gratuito, ele pode ter sido <strong>pausado</strong> por inatividade de 7 dias. Acesse o <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Painel do Supabase</a> e clique em <em>Restore Project</em>.
         </div>
 
-        <!-- Instruções opcionais para criar as tabelas necessárias no Supabase. -->
-        <details style="margin-top: 0.75rem; font-size: 0.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
-          <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">📋 Ver script SQL para criar as tabelas no Supabase</summary>
-          <div style="margin-top: 0.5rem;">
-            <p style="margin-bottom: 0.5rem; color: var(--muted-foreground);">Execute no <strong>SQL Editor</strong> do seu painel Supabase:</p>
-            <pre style="background: var(--secondary); padding: 0.5rem; border-radius: 0.4rem; overflow-x: auto; font-size: 0.72rem; line-height: 1.3; max-height: 150px; user-select: all;"><code>CREATE TABLE IF NOT EXISTS louvores (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  titulo TEXT NOT NULL,
-  artista TEXT NOT NULL,
-  tonalidade TEXT NOT NULL,
-  letra TEXT,
-  cifra TEXT,
-  youtube TEXT,
-  cadastro TEXT DEFAULT to_char(now(), 'DD/MM/YYYY'),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS terca_louvores (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
-  ordem INTEGER NOT NULL DEFAULT 0,
-  data DATE NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS domingo_louvores (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
-  ordem INTEGER NOT NULL DEFAULT 0,
-  data DATE NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS louvor_historico (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  louvor_id UUID REFERENCES louvores(id) ON DELETE CASCADE,
-  tab TEXT NOT NULL,
-  data_uso DATE NOT NULL,
-  deleted_at TIMESTAMP WITH TIME ZONE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-ALTER TABLE louvores ENABLE ROW LEVEL SECURITY;
-ALTER TABLE terca_louvores ENABLE ROW LEVEL SECURITY;
-ALTER TABLE domingo_louvores ENABLE ROW LEVEL SECURITY;
-ALTER TABLE louvor_historico ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Acesso publico louvores" ON louvores FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Acesso publico terca" ON terca_louvores FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Acesso publico domingo" ON domingo_louvores FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Acesso publico historico" ON louvor_historico FOR ALL USING (true) WITH CHECK (true);</code></pre>
-          </div>
-        </details>
       </div>
       <div class="modal-footer" style="flex-wrap: wrap; gap: 0.5rem; justify-content: space-between;">
         <div>

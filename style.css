@@ -1248,3 +1248,65 @@ a {
   color: #d97706;
 }
 
+/* Centraliza a tela de acesso antes de exibir o repertório protegido. */
+.auth-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--background);
+}
+
+/* Garante que a tela de acesso desapareça quando a sessão for autenticada. */
+.auth-screen[hidden] {
+  display: none;
+}
+
+/* Apresenta o formulário de acesso com as superfícies do tema atual. */
+.auth-panel {
+  width: min(100%, 26rem);
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+/* Organiza o título e a orientação de acesso. */
+.auth-heading {
+  margin-bottom: 1.5rem;
+}
+
+.auth-heading h1 {
+  color: var(--foreground);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.auth-heading p {
+  margin-top: 0.35rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+/* Empilha os campos e a ação de entrada. */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* Reserva espaço para mensagens sem deslocar o botão. */
+.auth-feedback {
+  min-height: 1.2rem;
+  color: var(--destructive);
+  font-size: 0.85rem;
+}
+
+/* Ocupa a largura do formulário e mantém uma altura confortável ao toque. */
+.auth-submit {
+  width: 100%;
+  min-height: 2.5rem;
+}
+

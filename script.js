@@ -48,6 +48,7 @@
     carregando: false,
     statusSupabase: 'checking',
     mensagemSupabase: 'Verificando conexão...',
+    sessao: null,
     louvorParaEnvio: null,
     louvorEditando: null,
     confirmacaoAcao: null,
@@ -159,6 +160,8 @@
 
   // Carregamento de dados do Supabase
   async function carregarDados() {
+    if (!estado.sessao) return;
+
     if (!supabaseClient) {
       atualizarStatusSupabase('offline', 'Cliente Supabase não configurado ou credenciais ausentes.');
       renderizarApp();
@@ -1320,6 +1323,125 @@
     }
   }
 
+  // Oculta os dados locais e a interface principal quando não há sessão válida.
+  function limparDadosSemSessao() {
+    [
+      'louvores_cache_repertorio',
+      'louvores_cache_terca',
+      'louvores_cache_domingo',
+      'louvores_cache_hist_terca',
+      'louvores_cache_hist_domingo'
+    ].forEach(chave => localStorage.removeItem(chave));
+
+    estado.repertorio = [];
+    estado.terca = [];
+    estado.domingo = [];
+    estado.historicoTerca = [];
+    estado.historicoDomingo = [];
+    estado.termoPesquisa = '';
+  }
+
+  // Alterna a tela de login e os controles protegidos conforme a sessão.
+  function atualizarAcesso(sessao) {
+    estado.sessao = sessao;
+    const autenticado = Boolean(sessao);
+    const telaAcesso = document.getElementById('auth-screen');
+    const areaSuperior = document.querySelector('.area-superior-fixa');
+    const conteudoLista = document.querySelector('.conteudo-lista');
+    const btnSair = document.getElementById('btn-sair');
+
+    if (telaAcesso) telaAcesso.hidden = autenticado;
+    if (areaSuperior) areaSuperior.hidden = !autenticado;
+    if (conteudoLista) conteudoLista.hidden = !autenticado;
+    if (btnSair) btnSair.style.display = autenticado ? 'inline-flex' : 'none';
+  }
+
+  // Autentica contas convidadas pelo painel do Supabase; não há cadastro público.
+  function inicializarAutenticacao() {
+    const formLogin = document.getElementById('form-login');
+    const campoEmail = document.getElementById('auth-email');
+    const campoSenha = document.getElementById('auth-password');
+    const feedback = document.getElementById('auth-feedback');
+    const btnLogin = document.getElementById('btn-login');
+    const btnSair = document.getElementById('btn-sair');
+
+    if (formLogin) {
+      formLogin.onsubmit = async (evento) => {
+        evento.preventDefault();
+        if (window.location.protocol === 'file:') {
+          if (feedback) feedback.textContent = 'Abra o app por um servidor local ou endereço HTTPS; o login não funciona abrindo o arquivo diretamente.';
+          return;
+        }
+
+        if (!supabaseClient) {
+          if (feedback) feedback.textContent = 'Não foi possível conectar ao serviço de autenticação.';
+          return;
+        }
+
+        if (feedback) feedback.textContent = '';
+        if (btnLogin) {
+          btnLogin.disabled = true;
+          btnLogin.textContent = 'Entrando...';
+        }
+
+        try {
+          const { error } = await supabaseClient.auth.signInWithPassword({
+            email: campoEmail.value.trim(),
+            password: campoSenha.value
+          });
+          if (error) throw error;
+        } catch (erro) {
+          console.warn('Falha na autenticação:', erro);
+          if (feedback) {
+            if (erro?.code === 'email_not_confirmed') {
+              feedback.textContent = 'Este e-mail ainda não foi confirmado. Confira a caixa de entrada ou confirme a conta no Supabase.';
+            } else if (erro?.code === 'invalid_credentials' || erro?.status === 400) {
+              feedback.textContent = 'E-mail ou senha incorretos. Confira também se a conta foi criada com uma senha.';
+            } else if (/fetch|network|connection/i.test(erro?.message || '')) {
+              feedback.textContent = 'Falha de rede. Confira sua conexão e se a URL do Supabase está correta.';
+            } else {
+              feedback.textContent = erro?.message || 'Não foi possível entrar. Confira a conta e tente novamente.';
+            }
+          }
+        } finally {
+          if (btnLogin) {
+            btnLogin.disabled = false;
+            btnLogin.textContent = 'Entrar';
+          }
+        }
+      };
+    }
+
+    if (btnSair) {
+      btnSair.onclick = async () => {
+        if (!supabaseClient) return;
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) mostrarToast('Erro', 'Não foi possível encerrar a sessão.', 'error');
+      };
+    }
+
+    if (!supabaseClient) {
+      if (feedback) feedback.textContent = 'O serviço de autenticação não está disponível.';
+      limparDadosSemSessao();
+      atualizarAcesso(null);
+      return;
+    }
+
+    supabaseClient.auth.onAuthStateChange((evento, sessao) => {
+      if (evento !== 'INITIAL_SESSION' && evento !== 'SIGNED_IN' && evento !== 'SIGNED_OUT') return;
+
+      atualizarAcesso(sessao);
+      if (sessao) {
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+        window.scrollTo(0, 0);
+        window.setTimeout(() => carregarDados(), 0);
+      } else {
+        limparDadosSemSessao();
+        renderizarApp();
+      }
+    });
+  }
+
   // Armazena o evento que permite oferecer a instalação do PWA.
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -1340,8 +1462,7 @@
   // Prepara a interface e inicia o carregamento dos dados.
   document.addEventListener('DOMContentLoaded', () => {
     inicializarUI();
-    renderizarApp();
-    carregarDados();
+    inicializarAutenticacao();
   });
 
 })();
