@@ -654,7 +654,22 @@
 
     // Modo normal (arrastável na terça/domingo e lista padrão no repertório)
     const eArrastavel = (aba === 'terca' || aba === 'domingo') && !estado.mostrarHistorico;
-    container.innerHTML = itens.map((l, index) => renderizarCardHTML(l, aba, eArrastavel, false, index)).join('');
+    let cabecalhoData = '';
+    if (aba === 'terca' || aba === 'domingo') {
+      const listaEscala = aba === 'terca' ? estado.terca : estado.domingo;
+      const dataEscala = obterDataExibicao(listaEscala);
+      if (dataEscala) {
+        const quantidade = listaEscala.filter(l => l.data === dataEscala).length;
+        cabecalhoData = `
+          <div class="grupo-data-header">
+            <i class="fa-regular fa-calendar"></i>
+            <div class="grupo-data-titulo">${formatarData(dataEscala)}</div>
+            <span class="grupo-data-contador">${quantidade} ${quantidade === 1 ? 'louvor' : 'louvores'}</span>
+          </div>
+        `;
+      }
+    }
+    container.innerHTML = cabecalhoData + itens.map((l, index) => renderizarCardHTML(l, aba, eArrastavel, false, index)).join('');
     vincularEventosCards();
     if (eArrastavel) {
       configurarDragAndDrop(container, aba);

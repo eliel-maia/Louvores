@@ -93,6 +93,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+@media (max-width: 639px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 body {
   min-height: 100vh;
   background-color: var(--background);
@@ -233,6 +239,17 @@ a {
 .botao-tema svg {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+@media (max-width: 639px) {
+  .cabecalho-container {
+    padding-top: max(1rem, calc(0.5rem + env(safe-area-inset-top, 0px)));
+  }
+
+  .cabecalho-secao-titulo {
+    margin-left: 0.5rem;
+    transform: translateY(-0.35rem);
+  }
 }
 
 /* Main Content */
