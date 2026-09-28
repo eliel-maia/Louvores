@@ -1010,69 +1010,8 @@ a {
   font-size: 0.9rem;
   transition: border-color 0.15s ease;
 }
-
-/* Aplicação das regras de estilização para o select customizado do modal */
-.form-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1rem;
-  padding-right: 2.25rem;
-  cursor: pointer;
-}
-
 .form-input {
   text-transform: uppercase; /* Aplica o maiúsculo SOMENTE no campo de digitar */
-}
-
-/* Custom Select Dropdown (Opção 2) */
-/* Controla a altura máxima e adiciona rolagem interna para o seletor de tom */
-/* Container que encapsula as opções do Select */
-.custom-select-options {
-  /* Limites de tamanho */
-  max-height: 250px;
-  width: 100%;
-  max-width: 320px; /* Impede que o dropdown fique largo demais na tela */
-  
-  /* Habilita rolagem interna quando o conteúdo passar de 250px */
-  overflow-y: auto; 
-  
-  /* Posicionamento (caso seja um dropdown suspenso) */
-  position: absolute;
-  z-index: 1000;
-  top: 100%; /* Surge logo abaixo do campo de entrada */
-  left: 0;
-
-  /* Estilização visual e bordas */
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--card);
-  box-shadow: var(--shadow-card);
-  margin-top: 4px;
-}
-
-/* Estilo de cada item individual (Cm, C#m, Dm, etc.) */
-.custom-select-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  color: var(--foreground);
-  cursor: pointer;
-  border-bottom: 1px solid var(--border); /* Linha divisória fina */
-}
-
-/* Remove a borda inferior do último item */
-.custom-select-option:last-child {
-  border-bottom: none;
-}
-
-.custom-select-option:hover {
-  background-color: var(--secondary);
 }
 
 /* Destaca o campo do formulário que está em foco. */
@@ -1375,3 +1314,5 @@ a {
   width: 100%;
   min-height: 2.5rem;
 }
+
+ Colei o código completo do CSS. Coloque a opção número 2 dentro desse código e me forneça ele completo para colocar no Git.
