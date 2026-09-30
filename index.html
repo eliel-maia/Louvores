@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <!-- Removidos 'maximum-scale=1.0' e 'user-scalable=no' para liberar o Pull-to-Refresh no iOS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Louvores</title>
   <meta name="description" content="Gestão de repertório musical de louvores" />
   <meta name="author" content="Eliel Maia" />
@@ -30,6 +31,10 @@
 </head>
 <body>
 
+  <!-- Indicador Visual do Pull-to-Refresh -->
+  <div id="ptr-indicator" class="ptr-indicator">
+    <div class="ptr-spinner"></div>
+  </div>
 
   <!-- Acesso por convite: as contas são criadas no painel do Supabase. -->
   <main id="auth-screen" class="auth-screen">
@@ -316,4 +321,4 @@
   <!-- Lógica principal do aplicativo -->
   <script src="script.js"></script>
 </body>
-                                                                                     </html>
+</html>
