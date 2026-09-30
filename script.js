@@ -585,17 +585,16 @@
     // Filtrar pesquisa (Título, Artista ou Tonalidade)
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
-      if (termo.length === 1) {
-        // Se digitou apenas 1 caractere, busca EXCLUSIVAMENTE pela tonalidade
+      if (termo.length < 3) {
+        // Se digitou 1 ou 2 caracteres, busca EXCLUSIVAMENTE pela tonalidade
         itens = itens.filter(item =>
           normalizarTexto(item.tonalidade) === termo
         );
       } else {
-        // Se digitou 2 ou mais caracteres, busca em título, artista ou tonalidade
+        // Se digitou 3 ou mais caracteres, busca APENAS no título ou artista
         itens = itens.filter(item =>
           normalizarTexto(item.titulo).includes(termo) ||
-          normalizarTexto(item.artista).includes(termo) ||
-          normalizarTexto(item.tonalidade).includes(termo)
+          normalizarTexto(item.artista).includes(termo)
         );
       }
     }
