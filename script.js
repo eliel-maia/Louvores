@@ -466,13 +466,13 @@
 
   // Compartilhamento via WhatsApp
   function compartilharWhatsApp(tipo) {
-    // Obter o URL do aplicativo com espaçamento adicional
+    // URL do aplicativo com espaçamento aumentado após o link
     const urlApp = window.location.href;
     const cabecalhoLink = `📱 *Acesse o App:*\n${urlApp}\n\n\n`;
 
     if (tipo === 'repertorio') {
       const ordenados = [...estado.repertorio].sort((a, b) => a.titulo.localeCompare(b.titulo));
-      const msg = cabecalhoLink + `*Repertório Completo*\n\n\n` +
+      const msg = cabecalhoLink + `*Repertório Completo*\n\n` +
         ordenados.map((l, i) => `${i + 1} - *${l.titulo}* (${l.tonalidade}) - ${l.artista}`).join("\n");
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     } else {
@@ -483,13 +483,11 @@
 
       const musicas = lista.filter(l => l.data === dataExibicao);
       const dataFormatada = dataExibicao.split('-').reverse().join('/');
-      const msg = cabecalhoLink + `*Lista de Louvor - ${dataFormatada}*\n\n\n` +
+      const msg = cabecalhoLink + `*Lista de Louvor - ${dataFormatada}*\n\n` +
         musicas.map((l, i) => `${i + 1} - *${l.titulo}* (${l.tonalidade})\n${l.artista}${l.youtube ? `\n${l.youtube}` : ''}`).join("\n\n");
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
   }
-
-
 
 
   // Renderização da Interface
