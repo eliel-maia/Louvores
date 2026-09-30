@@ -594,7 +594,8 @@
         // Se digitou 3 ou mais caracteres, busca APENAS no título ou artista
         itens = itens.filter(item =>
           normalizarTexto(item.titulo).includes(termo) ||
-          normalizarTexto(item.artista).includes(termo)
+          normalizarTexto(item.artista).includes(termo) ||
+          normalizarTexto(item.tonalidade).includes(termo)
         );
       }
     }
