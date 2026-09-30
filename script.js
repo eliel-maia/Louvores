@@ -466,9 +466,9 @@
 
   // Compartilhamento via WhatsApp
   function compartilharWhatsApp(tipo) {
-    // Obter o URL do aplicativo para inclusão na mensagem
+    // Obter o URL do aplicativo com quebra de linha antes do link
     const urlApp = window.location.href;
-    const cabecalhoLink = `📱 *Acesse o App:* ${urlApp}\n\n`;
+    const cabecalhoLink = `*Acesse o App:*\n${urlApp}\n\n`;
 
     if (tipo === 'repertorio') {
       const ordenados = [...estado.repertorio].sort((a, b) => a.titulo.localeCompare(b.titulo));
@@ -488,6 +488,7 @@
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
   }
+
 
 
   // Renderização da Interface
