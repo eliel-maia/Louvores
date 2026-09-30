@@ -468,7 +468,7 @@
   function compartilharWhatsApp(tipo) {
     // Obter o URL do aplicativo com quebra de linha antes do link
     const urlApp = window.location.href;
-    const cabecalhoLink = `*Acesse o App:*\n${urlApp}\n\n`;
+    const cabecalhoLink = `*Acesse o App:*\n${urlApp}\n\n\n\n`;
 
     if (tipo === 'repertorio') {
       const ordenados = [...estado.repertorio].sort((a, b) => a.titulo.localeCompare(b.titulo));
