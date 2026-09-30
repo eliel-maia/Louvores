@@ -581,14 +581,17 @@
       }
     }
 
-    // Filtrar pesquisa
+    
+    // Filtrar pesquisa (Título, Artista ou Tonalidade)
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
       itens = itens.filter(item =>
         normalizarTexto(item.titulo).includes(termo) ||
-        normalizarTexto(item.artista).includes(termo)
+        normalizarTexto(item.artista).includes(termo) ||
+        normalizarTexto(item.tonalidade).includes(termo)
       );
     }
+
 
     // Ordenação por uso em repertório
     if (aba === 'repertorio' && estado.ordenarPorUso) {
