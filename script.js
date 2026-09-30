@@ -1441,76 +1441,12 @@
 
   // Registra o service worker para habilitar cache e uso offline.
   if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const reg = await navigator.serviceWorker.register('./sw.js');
-
-      console.log('[PWA] Service Worker registrado:', reg.scope);
-
-      // Verifica atualizações imediatamente
-      reg.update();
-
-      // Verifica atualizações periodicamente
-      setInterval(() => {
-        reg.update();
-      }, 60000);
-
-      // Detecta nova versão instalada
-      reg.addEventListener('updatefound', () => {
-        const novoWorker = reg.installing;
-
-        if (!novoWorker) return;
-
-        novoWorker.addEventListener('statechange', () => {
-          if (
-            novoWorker.state === 'installed' &&
-            navigator.serviceWorker.controller
-          ) {
-            console.log('[PWA] Nova versão detectada');
-
-            novoWorker.postMessage({
-              type: 'SKIP_WAITING'
-            });
-          }
-        });
-      });
-
-      // Recarrega quando novo SW assumir controle
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
-      });
-
-    } catch (err) {
-      console.warn('[PWA] Erro ao registrar Service Worker:', err);
-    }
-  });
-}
-
-  window.addEventListener('pageshow', () => {
-
-  navigator.serviceWorker.getRegistration()
-    .then(reg => reg?.update());
-
-  if (estado.sessao) {
-    carregarDados();
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('[PWA] Service Worker registrado:', reg.scope))
+        .catch(err => console.warn('[PWA] Erro ao registrar Service Worker:', err));
+    });
   }
-
-});
-
-document.addEventListener('visibilitychange', () => {
-
-  if (!document.hidden) {
-
-    navigator.serviceWorker.getRegistration()
-      .then(reg => reg?.update());
-
-    if (estado.sessao) {
-      carregarDados();
-    }
-
-  }
-
-});
 
   // Prepara a interface e inicia o carregamento dos dados.
   document.addEventListener('DOMContentLoaded', () => {
