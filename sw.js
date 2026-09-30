@@ -1,4 +1,4 @@
-const CACHE_NAME = 'louvores-pwa-v18';
+const CACHE_NAME = 'louvores-pwa-v19';
 
 const PRECACHE_ASSETS = [
   './',
@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Ativação e limpeza de versões anteriores
+// Ativação e limpeza de versões anteriores (exaga 'louvores-pwa-v18' e anteriores)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -41,7 +41,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Ignorar protocolos especiais
+  // Ignorar protocolos especiais (ex: chrome-extension, file)
   if (!url.protocol.startsWith('http')) return;
 
   // Supabase API requests: Network-First com fallback de erro
