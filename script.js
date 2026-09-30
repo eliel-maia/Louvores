@@ -466,7 +466,6 @@
 
   // Compartilhamento via WhatsApp
   function compartilharWhatsApp(tipo) {
-    // URL do aplicativo com espaçamento aumentado após o link
     const urlApp = window.location.href;
     const cabecalhoLink = `📱 *Acesse o App:*\n${urlApp}\n\n\n`;
 
@@ -488,7 +487,6 @@
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
   }
-
 
   // Renderização da Interface
   function renderizarApp() {
@@ -586,17 +584,14 @@
       }
     }
 
-    
     // Filtrar pesquisa (Título, Artista ou Tonalidade)
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
       if (termo.length < 3) {
-        // Se digitou 1 ou 2 caracteres, busca EXCLUSIVAMENTE pela tonalidade
         itens = itens.filter(item =>
           normalizarTexto(item.tonalidade) === termo
         );
       } else {
-        // Se digitou 3 ou mais caracteres, busca APENAS no título ou artista
         itens = itens.filter(item =>
           normalizarTexto(item.titulo).includes(termo) ||
           normalizarTexto(item.artista).includes(termo) ||
@@ -604,7 +599,6 @@
         );
       }
     }
-
 
     // Ordenação por uso em repertório
     if (aba === 'repertorio' && estado.ordenarPorUso) {
@@ -664,7 +658,7 @@
       return;
     }
 
-    // Modo normal (arrastável na terça/domingo e lista padrão no repertório)
+    // Modo normal
     const eArrastavel = (aba === 'terca' || aba === 'domingo') && !estado.mostrarHistorico;
     let cabecalhoData = '';
     if (aba === 'terca' || aba === 'domingo') {
@@ -787,13 +781,12 @@
       };
     });
 
-    // Abre ou fecha o menu de ações do card.
+    // Menu suspenso
     document.querySelectorAll('.btn-dropdown-trigger').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
         const dropdown = document.getElementById(`dropdown-${id}`);
-        // Fecha os outros menus antes de abrir este.
         document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => {
           if (d !== dropdown) d.classList.remove('ativo');
         });
@@ -817,12 +810,12 @@
     });
   }
 
-  // Fecha os menus suspensos quando o usuário clica fora deles.
+  // Fecha os menus suspensos quando clica fora
   document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => d.classList.remove('ativo'));
   });
 
-  // Configura a reordenação dos cards com mouse e toque.
+  // Configura a reordenação dos cards
   function configurarDragAndDrop(container, aba) {
     let itemArrastando = null;
     let indiceOrigem = null;
@@ -830,7 +823,6 @@
     const itens = container.querySelectorAll('.item-arrastavel');
 
     itens.forEach(item => {
-      // Habilita o arraste e a soltura com mouse em computadores.
       item.addEventListener('dragstart', (e) => {
         itemArrastando = item;
         indiceOrigem = parseInt(item.dataset.index, 10);
@@ -868,14 +860,11 @@
         itemArrastando = null;
       });
 
-      // Habilita o arraste por toque usando o controle do card no celular.
       const handle = item.querySelector('.louvor-drag-handle');
       if (handle) {
-        let touchStartY = 0;
         let itemAlvoTouch = null;
 
         handle.addEventListener('touchstart', (e) => {
-          touchStartY = e.touches[0].clientY;
           indiceOrigem = parseInt(item.dataset.index, 10);
           item.classList.add('dragging');
         }, { passive: true });
@@ -905,7 +894,7 @@
     });
   }
 
-  // Controla a abertura, o fechamento e o conteúdo dos modais.
+  // Modais
   function abrirModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -978,9 +967,8 @@
 
     if (desc) desc.textContent = `Escolha a data para enviar "${louvor.titulo}" para ${abaAlvo === 'terca' ? 'Terça' : 'Domingo'}`;
 
-    // Sugere a próxima terça-feira ou o próximo domingo.
     const hoje = new Date();
-    const diaSemana = hoje.getDay(); // 0 representa domingo e 2 representa terça-feira.
+    const diaSemana = hoje.getDay();
     const targetDay = abaAlvo === 'terca' ? 2 : 0;
     let diasAte = (targetDay - diaSemana + 7) % 7;
     const dataAlvo = new Date(hoje);
@@ -1013,7 +1001,7 @@
       corpo.innerHTML = `
         <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
           <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem; background: var(--secondary); border-radius: 0.5rem;">
-            <svg style="width: 1.25rem; height: 1.25rem; color: var(--primary); flex-shrink: 0;"><use href="#icon-share"></use></svg>
+            <i class="fa-solid fa-square-share-nodes" style="font-size: 1.25rem; color: var(--primary); flex-shrink: 0;"></i>
             <div>
               <strong>1. Toque em Compartilhar</strong>
               <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.2rem;">
@@ -1022,7 +1010,7 @@
             </div>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem; background: var(--secondary); border-radius: 0.5rem;">
-            <svg style="width: 1.25rem; height: 1.25rem; color: var(--primary); flex-shrink: 0;"><use href="#icon-plus"></use></svg>
+            <i class="fa-regular fa-plus-square" style="font-size: 1.25rem; color: var(--primary); flex-shrink: 0;"></i>
             <div>
               <strong>2. "Adicionar à Tela de Início"</strong>
               <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.2rem;">
@@ -1031,7 +1019,7 @@
             </div>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem; background: var(--secondary); border-radius: 0.5rem;">
-            <svg style="width: 1.25rem; height: 1.25rem; color: #16a34a; flex-shrink: 0;"><use href="#icon-download"></use></svg>
+            <i class="fa-solid fa-check" style="font-size: 1.25rem; color: #16a34a; flex-shrink: 0;"></i>
             <div>
               <strong>3. Confirme em "Adicionar"</strong>
               <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.2rem;">
@@ -1046,7 +1034,7 @@
       corpo.innerHTML = `
         <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
           <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem; background: var(--secondary); border-radius: 0.5rem;">
-            <svg style="width: 1.25rem; height: 1.25rem; color: var(--primary); flex-shrink: 0;"><use href="#icon-download"></use></svg>
+            <i class="fa-solid fa-ellipsis-vertical" style="font-size: 1.25rem; color: var(--primary); flex-shrink: 0;"></i>
             <div>
               <strong>1. Menu do Navegador</strong>
               <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.2rem;">
@@ -1055,7 +1043,7 @@
             </div>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem; background: var(--secondary); border-radius: 0.5rem;">
-            <svg style="width: 1.25rem; height: 1.25rem; color: #16a34a; flex-shrink: 0;"><use href="#icon-plus"></use></svg>
+            <i class="fa-solid fa-download" style="font-size: 1.25rem; color: #16a34a; flex-shrink: 0;"></i>
             <div>
               <strong>2. "Instalar aplicativo"</strong>
               <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.2rem;">
@@ -1070,8 +1058,107 @@
     abrirModal('modal-instalacao');
   }
 
+  // --- RECURSO: PULL TO REFRESH NATIVO (iOS / ANDROID) ---
+  function configurarPullToRefresh() {
+    let startY = 0;
+    let distanceY = 0;
+    let isPulling = false;
+    const threshold = 70;
+
+    let ptrIndicator = document.getElementById('ptr-indicator');
+    if (!ptrIndicator) {
+      ptrIndicator = document.createElement('div');
+      ptrIndicator.id = 'ptr-indicator';
+      ptrIndicator.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-100%);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0;
+      `;
+      ptrIndicator.innerHTML = `
+        <div style="background: var(--card); color: var(--primary); padding: 8px 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600;">
+          <i class="fa-solid fa-rotate" id="ptr-icon"></i>
+          <span id="ptr-text">Puxe para atualizar</span>
+        </div>
+      `;
+      document.body.prepend(ptrIndicator);
+    }
+
+    const ptrIcon = document.getElementById('ptr-icon');
+    const ptrText = document.getElementById('ptr-text');
+
+    window.addEventListener('touchstart', (e) => {
+      if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
+        startY = e.touches[0].clientY;
+        isPulling = true;
+      } else {
+        isPulling = false;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isPulling) return;
+      
+      const currentY = e.touches[0].clientY;
+      distanceY = currentY - startY;
+
+      if (distanceY > 0 && (window.scrollY === 0 || document.documentElement.scrollTop === 0)) {
+        const pullFactor = Math.min(distanceY * 0.4, 80);
+        ptrIndicator.style.transform = `translateY(${pullFactor - 50}px)`;
+        ptrIndicator.style.opacity = '1';
+
+        if (pullFactor >= threshold * 0.4) {
+          if (ptrText) ptrText.textContent = 'Solte para atualizar';
+          if (ptrIcon) ptrIcon.style.transform = 'rotate(180deg)';
+        } else {
+          if (ptrText) ptrText.textContent = 'Puxe para atualizar';
+          if (ptrIcon) ptrIcon.style.transform = 'rotate(0deg)';
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', async () => {
+      if (!isPulling) return;
+      isPulling = false;
+
+      if (distanceY * 0.4 >= threshold * 0.4) {
+        if (ptrText) ptrText.textContent = 'Atualizando...';
+        if (ptrIcon) ptrIcon.classList.add('fa-spin');
+        ptrIndicator.style.transform = 'translateY(10px)';
+
+        try {
+          await carregarDados();
+          mostrarToast("Atualizado", "Dados sincronizados com sucesso!");
+        } catch (err) {
+          console.error("Erro ao atualizar via pull:", err);
+        } finally {
+          setTimeout(() => {
+            ptrIndicator.style.transform = 'translateY(-100%)';
+            ptrIndicator.style.opacity = '0';
+            if (ptrIcon) ptrIcon.classList.remove('fa-spin');
+          }, 500);
+        }
+      } else {
+        ptrIndicator.style.transform = 'translateY(-100%)';
+        ptrIndicator.style.opacity = '0';
+      }
+      distanceY = 0;
+    });
+  }
+
   // Inicializa a interface e associa os eventos aos controles.
   function inicializarUI() {
+    configurarPullToRefresh();
+
     // Abas
     document.querySelectorAll('.gatilho-aba').forEach(btn => {
       btn.onclick = () => {
@@ -1134,7 +1221,7 @@
       renderizarApp();
     };
 
-    // Processa o envio do formulário de cadastro ou edição de louvor.
+    // Formulário de Louvor
     const formLouvor = document.getElementById('form-louvor');
     if (formLouvor) {
       formLouvor.onsubmit = (e) => {
@@ -1193,7 +1280,7 @@
     // Modal Instalação
     document.getElementById('btn-fechar-instalacao').onclick = () => fecharModal('modal-instalacao');
 
-    // Modal Configurações do Supabase
+    // Modal Configurações Supabase
     const btnConfigSupabase = document.getElementById('btn-config-supabase');
     if (btnConfigSupabase) {
       btnConfigSupabase.onclick = () => {
@@ -1280,7 +1367,7 @@
       };
     }
 
-    // Configura o botão de instalação no cabeçalho.
+    // Botão de instalação
     const btnInstalar = document.getElementById('btn-instalar-app');
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     if (isStandalone && btnInstalar) {
@@ -1300,7 +1387,7 @@
       };
     }
 
-    // Alterna entre os temas escuro e claro e atualiza a barra do sistema.
+    // Alternador de tema
     const btnTema = document.getElementById('btn-alternar-tema');
     const iconeTema = document.getElementById('icone-tema');
 
@@ -1370,7 +1457,7 @@
     if (conteudoLista) conteudoLista.hidden = !autenticado;
   }
 
-  // Autentica contas convidadas pelo painel do Supabase; não há cadastro público.
+  // Autenticação
   function inicializarAutenticacao() {
     const formLogin = document.getElementById('form-login');
     const campoEmail = document.getElementById('auth-email');
@@ -1447,7 +1534,7 @@
     });
   }
 
-  // Armazena o evento que permite oferecer a instalação do PWA.
+  // PWA Prompt
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     estado.deferredPrompt = e;
@@ -1455,7 +1542,7 @@
     if (btnInstalar) btnInstalar.style.display = 'inline-flex';
   });
 
-  // Registra o service worker para habilitar cache e uso offline.
+  // Service Worker
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
@@ -1464,7 +1551,7 @@
     });
   }
 
-  // Prepara a interface e inicia o carregamento dos dados.
+  // Evento DOM Loaded
   document.addEventListener('DOMContentLoaded', () => {
     inicializarUI();
     inicializarAutenticacao();
