@@ -1069,26 +1069,9 @@
     if (!ptrIndicator) {
       ptrIndicator = document.createElement('div');
       ptrIndicator.id = 'ptr-indicator';
-      ptrIndicator.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateY(-100%);
-        transition: transform 0.2s ease, opacity 0.2s ease;
-        z-index: 9999;
-        pointer-events: none;
-        opacity: 0;
-      `;
       ptrIndicator.innerHTML = `
-        <div style="background: var(--card); color: var(--primary); padding: 8px 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600;">
-          <i class="fa-solid fa-rotate" id="ptr-icon"></i>
-          <span id="ptr-text">Puxe para atualizar</span>
-        </div>
+        <i class="fa-solid fa-rotate" id="ptr-icon"></i>
+        <span id="ptr-text">Puxe para atualizar</span>
       `;
       document.body.prepend(ptrIndicator);
     }
@@ -1113,8 +1096,9 @@
 
       if (distanceY > 0 && (window.scrollY === 0 || document.documentElement.scrollTop === 0)) {
         const pullFactor = Math.min(distanceY * 0.4, 80);
-        ptrIndicator.style.transform = `translateY(${pullFactor - 50}px)`;
-        ptrIndicator.style.opacity = '1';
+
+        // Ativa a visibilidade da pílula apenas durante o arraste
+        ptrIndicator.classList.add('visivel');
 
         if (pullFactor >= threshold * 0.4) {
           if (ptrText) ptrText.textContent = 'Solte para atualizar';
@@ -1133,7 +1117,6 @@
       if (distanceY * 0.4 >= threshold * 0.4) {
         if (ptrText) ptrText.textContent = 'Atualizando...';
         if (ptrIcon) ptrIcon.classList.add('fa-spin');
-        ptrIndicator.style.transform = 'translateY(10px)';
 
         try {
           await carregarDados();
@@ -1142,14 +1125,15 @@
           console.error("Erro ao atualizar via pull:", err);
         } finally {
           setTimeout(() => {
-            ptrIndicator.style.transform = 'translateY(-100%)';
-            ptrIndicator.style.opacity = '0';
-            if (ptrIcon) ptrIcon.classList.remove('fa-spin');
-          }, 500);
+            ptrIndicator.classList.remove('visivel');
+            if (ptrIcon) {
+              ptrIcon.classList.remove('fa-spin');
+              ptrIcon.style.transform = 'rotate(0deg)';
+            }
+          }, 600);
         }
       } else {
-        ptrIndicator.style.transform = 'translateY(-100%)';
-        ptrIndicator.style.opacity = '0';
+        ptrIndicator.classList.remove('visivel');
       }
       distanceY = 0;
     });
