@@ -1319,15 +1319,19 @@ a {
   min-height: 2.5rem;
 }
 
-/* Estilos para o Pull to Refresh no formato cápsula flutuante (Dynamic Island) */
+/* Pull to Refresh no formato cápsula flutuante (Dynamic Island)- Estilo iOS */
 #ptr-indicator {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  background-color: rgba(15, 23, 42, 0.88);
-  color: #ffffff;
+  
+  /* Fundo escuro apenas da pílula */
+  background-color: #0f172a; 
+  /* Texto e ícone em azul */
+  color: #2563eb; 
+  
   padding: 0.45rem 1.1rem;
   border-radius: 9999px;
   font-size: 0.85rem;
@@ -1335,10 +1339,11 @@ a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  
+  /* Sombra leve para destacar a pílula do fundo da tela */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
   will-change: transform, opacity;
   pointer-events: none;
 }
@@ -1346,9 +1351,10 @@ a {
 #ptr-indicator i.fa-rotate {
   transition: transform 0.2s ease;
   font-size: 0.9rem;
+  color: #2563eb; /* Garante o azul no ícone */
 }
 
-/* Rotação contínua do ícone durante o estado de atualização */
+/* Rotação contínua do ícone durante a atualização */
 .fa-spin {
   animation: fa-spin 1s infinite linear;
 }
