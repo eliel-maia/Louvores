@@ -440,7 +440,6 @@
     const [removido] = lista.splice(indiceInicial, 1);
     lista.splice(indiceFinal, 0, removido);
 
-    // Atualiza a interface imediatamente, antes da confirmação do servidor.
     if (aba === 'terca') estado.terca = lista.map((item, idx) => ({ ...item, ordem: idx }));
     else estado.domingo = lista.map((item, idx) => ({ ...item, ordem: idx }));
     renderizarApp();
@@ -584,7 +583,6 @@
       }
     }
 
-    // Filtrar pesquisa (Título, Artista ou Tonalidade)
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
       if (termo.length < 3) {
@@ -600,12 +598,10 @@
       }
     }
 
-    // Ordenação por uso em repertório
     if (aba === 'repertorio' && estado.ordenarPorUso) {
       itens.sort((a, b) => (b.usageCount || 0) - (a.usageCount || 0));
     }
 
-    // Lista Vazia
     if (itens.length === 0) {
       const subtituloVazio = aba === 'repertorio'
         ? 'Toque no botão + para adicionar seu primeiro louvor'
@@ -622,7 +618,6 @@
       return;
     }
 
-    // Se estiver em modo histórico (agrupado por data)
     if ((aba === 'terca' || aba === 'domingo') && estado.mostrarHistorico) {
       const grupos = {};
       itens.forEach(l => {
@@ -658,7 +653,6 @@
       return;
     }
 
-    // Modo normal
     const eArrastavel = (aba === 'terca' || aba === 'domingo') && !estado.mostrarHistorico;
     let cabecalhoData = '';
     if (aba === 'terca' || aba === 'domingo') {
@@ -682,7 +676,6 @@
     }
   }
 
-  // Gera a marcação HTML de um card de louvor.
   function renderizarCardHTML(louvor, aba, arrastavel = false, modoHistorico = false, index = 0) {
     const ehRepertorio = aba === 'repertorio';
     const chaveTom = louvor.tonalidade ? (louvor.tonalidade.charAt(0).toUpperCase() + louvor.tonalidade.slice(1).toLowerCase()) : '';
@@ -754,9 +747,7 @@
     `;
   }
 
-  // Vincular eventos dos cards
   function vincularEventosCards() {
-    // Editar
     document.querySelectorAll('.btn-editar-card').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -768,7 +759,6 @@
       };
     });
 
-    // Excluir de Terça/Domingo
     document.querySelectorAll('.btn-excluir-card').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -781,7 +771,6 @@
       };
     });
 
-    // Menu suspenso
     document.querySelectorAll('.btn-dropdown-trigger').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -794,7 +783,6 @@
       };
     });
 
-    // Enviar para
     document.querySelectorAll('.btn-enviar-para').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -810,12 +798,10 @@
     });
   }
 
-  // Fecha os menus suspensos quando clica fora
   document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-menu-content.ativo').forEach(d => d.classList.remove('ativo'));
   });
 
-  // Configura a reordenação dos cards
   function configurarDragAndDrop(container, aba) {
     let itemArrastando = null;
     let indiceOrigem = null;
@@ -912,7 +898,6 @@
     document.querySelectorAll('.modal-backdrop.aberto').forEach(m => m.classList.remove('aberto'));
   });
 
-  // Modal Louvor (Adicionar/Editar)
   function abrirModalLouvor(louvor = null) {
     estado.louvorEditando = louvor;
     const titulo = document.getElementById('modal-louvor-titulo');
@@ -959,7 +944,6 @@
     estado.louvorEditando = null;
   }
 
-  // Modal Data
   function abrirModalData(louvor, abaAlvo) {
     estado.louvorParaEnvio = { louvor, abaAlvo };
     const desc = document.getElementById('modal-data-descricao');
@@ -982,7 +966,6 @@
     abrirModal('modal-data');
   }
 
-  // Modal Confirmação
   function abrirModalConfirmacao(titulo, mensagem, aoConfirmar) {
     estado.confirmacaoAcao = aoConfirmar;
     document.getElementById('modal-confirm-titulo').textContent = titulo;
@@ -990,7 +973,6 @@
     abrirModal('modal-confirmacao');
   }
 
-  // Modal Instalação PWA
   function abrirModalInstalacao() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     const titulo = document.getElementById('modal-instalar-titulo');
@@ -1097,8 +1079,9 @@
       if (distanceY > 0 && (window.scrollY === 0 || document.documentElement.scrollTop === 0)) {
         const pullFactor = Math.min(distanceY * 0.4, 80);
 
-        // Ativa a visibilidade da pílula apenas durante o arraste
-        ptrIndicator.classList.add('visivel');
+        if (pullFactor > 10) {
+          ptrIndicator.classList.add('visivel');
+        }
 
         if (pullFactor >= threshold * 0.4) {
           if (ptrText) ptrText.textContent = 'Solte para atualizar';
@@ -1171,7 +1154,7 @@
       });
     }
 
-    // Configura os botões da barra de controles.
+    // Controls
     const btnAdd = document.getElementById('btn-adicionar-louvor');
     if (btnAdd) btnAdd.onclick = () => abrirModalLouvor(null);
 
@@ -1205,7 +1188,7 @@
       renderizarApp();
     };
 
-    // Formulário de Louvor
+    // Form Louvor
     const formLouvor = document.getElementById('form-louvor');
     if (formLouvor) {
       formLouvor.onsubmit = (e) => {
@@ -1264,7 +1247,7 @@
     // Modal Instalação
     document.getElementById('btn-fechar-instalacao').onclick = () => fecharModal('modal-instalacao');
 
-    // Modal Configurações Supabase
+    // Supabase Settings Modal
     const btnConfigSupabase = document.getElementById('btn-config-supabase');
     if (btnConfigSupabase) {
       btnConfigSupabase.onclick = () => {
@@ -1316,9 +1299,8 @@
           }
           const clienteTeste = window.supabase.createClient(url, key);
           const { data, error } = await clienteTeste.from('louvores').select('id').limit(1);
-          if (error) {
-            throw error;
-          }
+          if (error) throw error;
+
           atualizarStatusSupabase('online', 'Sucesso! Conexão estabelecida e tabela "louvores" acessível.');
           mostrarToast("Sucesso", "Conectado ao Supabase com sucesso!");
         } catch (e) {
@@ -1379,9 +1361,7 @@
     const querEscuro = temaSalvo ? temaSalvo === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (querEscuro) {
       document.documentElement.classList.add('dark');
-      if (iconeTema) {
-        iconeTema.className = 'fa-solid fa-sun';
-      }
+      if (iconeTema) iconeTema.className = 'fa-solid fa-sun';
     }
 
     const atualizarCorTemaSistema = () => {
@@ -1410,7 +1390,6 @@
     }
   }
 
-  // Oculta os dados locais e a interface principal quando não há sessão válida.
   function limparDadosSemSessao() {
     [
       'louvores_cache_repertorio',
@@ -1428,7 +1407,6 @@
     estado.termoPesquisa = '';
   }
 
-  // Alterna a tela de login e os controles protegidos conforme a sessão.
   function atualizarAcesso(sessao) {
     estado.sessao = sessao;
     const autenticado = Boolean(sessao);
@@ -1441,7 +1419,6 @@
     if (conteudoLista) conteudoLista.hidden = !autenticado;
   }
 
-  // Autenticação
   function inicializarAutenticacao() {
     const formLogin = document.getElementById('form-login');
     const campoEmail = document.getElementById('auth-email');
