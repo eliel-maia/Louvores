@@ -1319,7 +1319,8 @@ a {
   min-height: 2.5rem;
 }
 
-/* Pull to Refresh no formato cápsula flutuante (Dynamic Island)- Estilo iOS */
+
+/* Pílula do Pull to Refresh - Estilo Dynamic Island / iOS */
 #ptr-indicator {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
@@ -1327,34 +1328,38 @@ a {
   transform: translateX(-50%);
   z-index: 9999;
   
-  /* Fundo escuro apenas da pílula */
+  /* Garante a exibição do flexbox sobrepondo o display:none inline do HTML se necessário */
+  display: flex !important; 
+  
+  /* Fundo escuro apenas na pílula flutuante */
   background-color: #0f172a; 
-  /* Texto e ícone em azul */
+  /* Texto em azul iOS */
   color: #2563eb; 
   
   padding: 0.45rem 1.1rem;
   border-radius: 9999px;
   font-size: 0.85rem;
   font-weight: 700;
-  display: flex;
   align-items: center;
   gap: 0.5rem;
   
-  /* Sombra leve para destacar a pílula do fundo da tela */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  /* Sombra suave sem ocupar a largura da tela */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.1);
   
   will-change: transform, opacity;
   pointer-events: none;
 }
 
+/* Força a cor azul do ícone de rotação */
+#ptr-indicator i, 
 #ptr-indicator i.fa-rotate {
-  transition: transform 0.2s ease;
+  color: #2563eb !important;
   font-size: 0.9rem;
-  color: #2563eb; /* Garante o azul no ícone */
+  transition: transform 0.2s ease;
 }
 
-/* Rotação contínua do ícone durante a atualização */
+/* Rotação contínua durante o carregamento */
 .fa-spin {
   animation: fa-spin 1s infinite linear;
 }
