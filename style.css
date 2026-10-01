@@ -98,6 +98,8 @@ html {
   font-size: 16px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
+  /* Desativa a puxada nativa do Android e previne a rolagem elástica */
+  overscroll-behavior-y: contain;
 }
 
 /* Reduz a fonte base em telas de celular. */
@@ -118,6 +120,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
   user-select: none;
+  /* Impede a recarga nativa do navegador mobile */
+  overscroll-behavior-y: contain;
 }
 
 /* Mantém os controles de formulário coerentes com a tipografia e o tema. */
@@ -1315,14 +1319,33 @@ a {
   min-height: 2.5rem;
 }
 
-/* Estilos para o Pull to Refresh */
-/* Otimização de renderização e transições do indicador */
+/* Estilos para o Pull to Refresh no formato cápsula flutuante (Dynamic Island) */
 #ptr-indicator {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background-color: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   will-change: transform, opacity;
+  pointer-events: none;
 }
 
 #ptr-indicator i.fa-rotate {
   transition: transform 0.2s ease;
+  font-size: 0.9rem;
 }
 
 /* Rotação contínua do ícone durante o estado de atualização */
