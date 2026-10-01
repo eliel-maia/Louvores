@@ -1325,15 +1325,17 @@ a {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-150%); /* Escondido acima da tela por padrão */
   z-index: 9999;
   
-  /* Garante a exibição do flexbox sobrepondo o display:none inline do HTML se necessário */
-  display: flex !important; 
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, visibility 0.25s;
   
   /* Fundo escuro apenas na pílula flutuante */
   background-color: #0f172a; 
-  /* Texto em azul iOS */
+  /* Texto em azul */
   color: #2563eb; 
   
   padding: 0.45rem 1.1rem;
@@ -1343,23 +1345,27 @@ a {
   align-items: center;
   gap: 0.5rem;
   
-  /* Sombra suave sem ocupar a largura da tela */
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
-/* Força a cor azul do ícone de rotação */
+/* Classe ativada via JS ao puxar a tela ou durante o carregamento */
+#ptr-indicator.visivel {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Cor azul do ícone */
 #ptr-indicator i, 
 #ptr-indicator i.fa-rotate {
-  color: #2563eb !important;
+  color: #2563eb;
   font-size: 0.9rem;
   transition: transform 0.2s ease;
 }
 
-/* Rotação contínua durante o carregamento */
+/* Rotação contínua durante a atualização */
 .fa-spin {
   animation: fa-spin 1s infinite linear;
 }
@@ -1368,3 +1374,4 @@ a {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
