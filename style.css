@@ -687,13 +687,13 @@ a {
   gap: 0.5rem;
 }
 
-/* Modificado para deixar o nome da música sempre em maiúsculo e com maior destaque */
+/* Nome da música sempre em maiúsculo e com destaque visual */
 .louvor-title {
-  font-weight: 800; /* Deixa o texto em negrito mais encorpado */
-  font-size: 0.95rem; /* Tamanho ajustado e proporcional */
+  font-weight: 800;
+  font-size: 0.95rem;
   color: var(--foreground);
-  text-transform: uppercase; /* Força todo o texto a ficar em MAIÚSCULO */
-  letter-spacing: 0.02em; /* Leve espaçamento entre letras para melhor leitura */
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -918,7 +918,6 @@ a {
 
 /* Gira o indicador de carregamento continuamente. */
 @keyframes spin {
-  /* Completa uma volta inteira do indicador. */
   to {
     transform: rotate(360deg);
   }
@@ -1014,8 +1013,9 @@ a {
   font-size: 0.9rem;
   transition: border-color 0.15s ease;
 }
+
 .form-input {
-  text-transform: uppercase; /* Aplica o maiúsculo SOMENTE no campo de digitar */
+  text-transform: uppercase; /* Força letras maiúsculas no campo de digitação */
 }
 
 /* Destaca o campo do formulário que está em foco. */
@@ -1144,25 +1144,19 @@ a {
 /* Animações */
 /* Faz os elementos aparecerem gradualmente. */
 @keyframes fadeIn {
-  /* Inicia totalmente transparente. */
   from { opacity: 0; }
-  /* Termina totalmente visível. */
   to { opacity: 1; }
 }
 
 /* Aumenta suavemente os elementos até o tamanho final. */
 @keyframes scaleIn {
-  /* Inicia um pouco menor e transparente. */
   from { opacity: 0; transform: scale(0.95); }
-  /* Termina no tamanho normal e totalmente visível. */
   to { opacity: 1; transform: scale(1); }
 }
 
 /* Move os elementos para cima enquanto aparecem. */
 @keyframes slideUp {
-  /* Inicia abaixo da posição final. */
   from { opacity: 0; transform: translateY(12px); }
-  /* Termina na posição natural do elemento. */
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -1220,11 +1214,8 @@ a {
 
 /* Pulsa o indicador para mostrar que a verificação está em andamento. */
 @keyframes pulsoStatus {
-  /* Reduz levemente o tamanho e o brilho do indicador. */
   0% { transform: scale(0.9); opacity: 0.7; }
-  /* Aumenta o tamanho e o brilho no meio da pulsação. */
   50% { transform: scale(1.2); opacity: 1; }
-  /* Retorna ao tamanho e à opacidade iniciais. */
   100% { transform: scale(0.9); opacity: 0.7; }
 }
 
@@ -1319,13 +1310,12 @@ a {
   min-height: 2.5rem;
 }
 
-
 /* Pílula do Pull to Refresh - Estilo Dynamic Island / iOS */
 #ptr-indicator {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
   left: 50%;
-  transform: translateX(-50%) translateY(-150%); /* Escondido acima da tela por padrão */
+  transform: translateX(-50%) translateY(-150%); /* Oculto acima da viewport */
   z-index: 9999;
   
   display: flex;
@@ -1333,9 +1323,7 @@ a {
   visibility: hidden;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, visibility 0.25s;
   
-  /* Fundo escuro apenas na pílula flutuante */
   background-color: #0f172a; 
-  /* Texto em azul */
   color: #2563eb; 
   
   padding: 0.45rem 1.1rem;
@@ -1357,7 +1345,7 @@ a {
   visibility: visible;
 }
 
-/* Cor azul do ícone */
+/* Ícone de atualização da pílula */
 #ptr-indicator i, 
 #ptr-indicator i.fa-rotate {
   color: #2563eb;
@@ -1374,4 +1362,3 @@ a {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
