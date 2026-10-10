@@ -588,10 +588,12 @@
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
       if (termo.length < 2) {
+        // Apenas 1 caractere: busca exata na tonalidade
         itens = itens.filter(item =>
           normalizarTexto(item.tonalidade) === termo
         );
       } else {
+        // 2 ou mais caracteres: busca em Título, Artista e Tonalidade
         itens = itens.filter(item =>
           normalizarTexto(item.titulo).includes(termo) ||
           normalizarTexto(item.artista).includes(termo) ||
