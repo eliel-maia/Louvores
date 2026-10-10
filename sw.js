@@ -9,18 +9,19 @@ const PRECACHE_ASSETS = [
   './icone.png'
 ];
 
-// Instalação do Service Worker
+// Instalação do Service Worker e pulagem de espera imediata
 self.addEventListener('install', (event) => {
+  self.skipWaiting(); // Força o novo SW a ativar imediatamente
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(PRECACHE_ASSETS).catch((err) => {
         console.warn('[SW] Aviso ao pré-carregar recursos:', err);
       });
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Ativação e limpeza de versões anteriores (exaga 'louvores-pwa-v18' e anteriores)
+// Ativação e limpeza de versões anteriores
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -29,7 +30,7 @@ self.addEventListener('activate', (event) => {
           .filter((name) => name !== CACHE_NAME)
           .map((name) => caches.delete(name))
       );
-    }).then(() => self.clients.claim())
+    }).then(() => self.clients.claim()) // Assume o controle imediato das abas abertas
   );
 });
 
