@@ -587,7 +587,7 @@
     // Filtrar pesquisa (Título, Artista ou Tonalidade)
     const termo = normalizarTexto(estado.termoPesquisa);
     if (termo) {
-      if (termo.length < 3) {
+      if (termo.length < 2) {
         itens = itens.filter(item =>
           normalizarTexto(item.tonalidade) === termo
         );
